@@ -29,9 +29,12 @@ test('english locale updates timer and settings labels', async ({ page }) => {
   await expect(page.getByText('Standard personas')).toBeVisible();
 
   await page
-    .getByRole('button', { name: /increase collective agreement staff/i })
+    .getByRole('button', { name: /increase collective agreement employee/i })
     .click();
-  await page.getByRole('button', { name: /back to timer/i }).click();
+  await page
+    .getByTestId('settings-view')
+    .getByRole('button', { name: /apply settings/i })
+    .click();
 
   await startMeetingFromTimer(page);
   await expect(page.getByText('Elapsed time')).toBeVisible();

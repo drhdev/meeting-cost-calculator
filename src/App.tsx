@@ -64,7 +64,6 @@ export default function App() {
       onToggleTheme={toggleTheme}
       settingsOpen={settingsOpen}
       onOpenSettings={() => setSettingsOpen(true)}
-      onCloseSettings={() => setSettingsOpen(false)}
       settingsDisabled={
         session.phase === 'running' ||
         session.phase === 'paused' ||
@@ -95,7 +94,12 @@ export default function App() {
   return (
     <Layout locale={session.locale} compact={compact} toolbar={toolbar}>
       {settingsOpen && (
-        <SettingsView session={session} onUpdateSetup={updateSetup} compact={compact} />
+        <SettingsView
+          session={session}
+          onUpdateSetup={updateSetup}
+          onApply={() => setSettingsOpen(false)}
+          compact={compact}
+        />
       )}
       {showTimer && <RunningView {...runningProps} />}
       {!settingsOpen && session.phase === 'ended' && (

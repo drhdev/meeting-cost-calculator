@@ -12,10 +12,10 @@ test('10 mixed participants: focus view, ticking cost, pause, end', async ({ pag
   await openSettings(page);
 
   const standard: { pattern: RegExp; count: number }[] = [
-    { pattern: /mehr tarifmitarbeiter|increase collective agreement staff/i, count: 3 },
-    { pattern: /mehr außertarifliche mitarbeiter|increase non-tariff staff/i, count: 2 },
-    { pattern: /mehr leitende angestellte|increase executives/i, count: 2 },
-    { pattern: /mehr vorstände|increase board members/i, count: 1 },
+    { pattern: /mehr tarifmitarbeiter|increase collective agreement employee/i, count: 3 },
+    { pattern: /mehr außertariflicher mitarbeiter|increase non-tariff employee/i, count: 2 },
+    { pattern: /mehr leitender angestellter|increase executive/i, count: 2 },
+    { pattern: /mehr vorstand|increase board member/i, count: 1 },
   ];
 
   for (const { pattern, count } of standard) {
@@ -50,7 +50,7 @@ test('10 mixed participants: focus view, ticking cost, pause, end', async ({ pag
   const chips = page.getByTestId('active-participant');
   await expect(chips).toHaveCount(6);
   await expect(
-    chips.filter({ hasText: /tarifmitarbeiter|collective agreement staff/i }),
+    chips.filter({ hasText: /tarifmitarbeiter|collective agreement employee/i }),
   ).toHaveText(/3×/);
   await expect(chips.filter({ hasText: /devops/i })).toHaveText(/1×/);
 

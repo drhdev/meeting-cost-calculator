@@ -21,6 +21,7 @@ export const ko = {
   'setup.language': '언어',
   'settings.title': '설정',
   'settings.close': '타이머로 돌아가기',
+  'settings.apply': '설정 적용',
   'a11y.openSettings': '설정 열기',
   'timer.configureHint.prefix': '설정에서 ',
   'timer.configureHint.suffix': '에 참가자를 최소 1명 추가하세요.',

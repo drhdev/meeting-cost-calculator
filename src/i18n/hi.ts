@@ -21,6 +21,7 @@ export const hi = {
   'setup.language': 'भाषा',
   'settings.title': 'सेटिंग्स',
   'settings.close': 'टाइमर पर वापस',
+  'settings.apply': 'सेटिंग्स लागू करें',
   'a11y.openSettings': 'सेटिंग्स खोलें',
   'timer.configureHint.prefix': 'कृपया ',
   'timer.configureHint.suffix': ' में कम से कम एक प्रतिभागी जोड़ें।',

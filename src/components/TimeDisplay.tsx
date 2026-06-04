@@ -15,7 +15,7 @@ export function TimeDisplay({ label, elapsedMs, large = false }: TimeDisplayProp
       <p
         data-testid="time-display"
         className={`font-mono font-semibold tabular-nums tracking-tight text-slate-900 dark:text-white ${
-          large ? 'text-4xl sm:text-5xl' : 'text-2xl'
+          large ? 'text-6xl sm:text-7xl' : 'text-4xl sm:text-5xl'
         }`}
         aria-live="polite"
         aria-atomic="true"

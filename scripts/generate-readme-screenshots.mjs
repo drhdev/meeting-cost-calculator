@@ -31,10 +31,10 @@ async function setEnglish(page) {
 
 async function addTenParticipants(page) {
   const standard = [
-    [/increase collective agreement staff/i, 3],
-    [/increase non-tariff staff/i, 2],
-    [/increase executives/i, 2],
-    [/increase board members/i, 1],
+    [/increase collective agreement employee/i, 3],
+    [/increase non-tariff employee/i, 2],
+    [/increase executive/i, 2],
+    [/increase board member/i, 1],
   ];
   for (const [pattern, count] of standard) {
     const btn = page.getByRole('button', { name: pattern });
@@ -72,7 +72,10 @@ async function main() {
 
   await page.goto(`${base}/?nopip=1`);
   await setEnglish(page);
-  await page.getByRole('button', { name: /zurück zum timer|back to timer/i }).click();
+  await page
+    .getByTestId('settings-view')
+    .getByRole('button', { name: /einstellungen übernehmen|apply settings/i })
+    .click();
   await page.waitForSelector('[data-testid="timer-view"]');
   await page.screenshot({
     path: path.join(outDir, FILES.home),
@@ -86,7 +89,10 @@ async function main() {
     fullPage: true,
   });
 
-  await page.getByRole('button', { name: /zurück zum timer|back to timer/i }).click();
+  await page
+    .getByTestId('settings-view')
+    .getByRole('button', { name: /einstellungen übernehmen|apply settings/i })
+    .click();
   await page.getByRole('button', { name: /^start$/i }).click();
   await page.waitForSelector('[data-testid="focus-overlay"]');
 

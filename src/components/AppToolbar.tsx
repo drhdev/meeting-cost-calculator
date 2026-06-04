@@ -8,7 +8,6 @@ interface AppToolbarProps {
   onToggleTheme: () => void;
   settingsOpen: boolean;
   onOpenSettings: () => void;
-  onCloseSettings: () => void;
   settingsDisabled?: boolean;
   compact?: boolean;
 }
@@ -32,31 +31,12 @@ function SettingsIcon() {
   );
 }
 
-function BackIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-5 w-5"
-      aria-hidden
-    >
-      <path d="M19 12H5M12 19l-7-7 7-7" />
-    </svg>
-  );
-}
-
 export function AppToolbar({
   locale,
   isDark,
   onToggleTheme,
   settingsOpen,
   onOpenSettings,
-  onCloseSettings,
   settingsDisabled = false,
   compact = false,
 }: AppToolbarProps) {
@@ -90,17 +70,7 @@ export function AppToolbar({
         )}
       </div>
       <div className="flex shrink-0 items-center gap-2">
-        {settingsOpen ? (
-          <button
-            type="button"
-            onClick={onCloseSettings}
-            aria-label={t('settings.close')}
-            title={t('settings.close')}
-            className={btnClass}
-          >
-            <BackIcon />
-          </button>
-        ) : (
+        {!settingsOpen && (
           <button
             type="button"
             onClick={onOpenSettings}

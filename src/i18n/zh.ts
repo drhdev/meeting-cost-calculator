@@ -21,6 +21,7 @@ export const zh = {
   'setup.language': '语言',
   'settings.title': '设置',
   'settings.close': '返回计时器',
+  'settings.apply': '应用设置',
   'a11y.openSettings': '打开设置',
   'timer.configureHint.prefix': '请在',
   'timer.configureHint.suffix': '中至少添加一名参与者。',

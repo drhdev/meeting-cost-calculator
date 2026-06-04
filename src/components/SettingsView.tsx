@@ -30,10 +30,11 @@ interface SettingsViewProps {
     costStepEuro?: CostStepEuro;
     locale?: AppLocale;
   }) => void;
+  onApply: () => void;
   compact?: boolean;
 }
 
-export function SettingsView({ session, onUpdateSetup, compact = false }: SettingsViewProps) {
+export function SettingsView({ session, onUpdateSetup, onApply, compact = false }: SettingsViewProps) {
   const { t } = useI18n(session.locale);
   const total = getTotalParticipantCount(session.participants, session.customPersonas);
   const customValid = session.customPersonas.every(isCustomPersonaValidForMeeting);
@@ -153,6 +154,16 @@ export function SettingsView({ session, onUpdateSetup, compact = false }: Settin
         locale={session.locale}
         onChange={(locale) => onUpdateSetup({ locale })}
       />
+
+      <button
+        type="button"
+        onClick={onApply}
+        className={`flex w-full items-center justify-center rounded-xl bg-orange-500 font-semibold text-white transition hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 ${
+          compact ? 'min-h-10 px-4 text-sm' : 'min-h-11 px-4 text-sm'
+        }`}
+      >
+        {t('settings.apply')}
+      </button>
     </div>
   );
 }

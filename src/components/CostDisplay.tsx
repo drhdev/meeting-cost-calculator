@@ -27,7 +27,7 @@ export function CostDisplay({
       <p
         data-testid="cost-display"
         className={`font-mono font-semibold tabular-nums tracking-tight text-orange-400 ${
-          large ? 'text-4xl sm:text-5xl' : 'text-2xl'
+          large ? 'text-6xl sm:text-7xl' : 'text-4xl sm:text-5xl'
         }`}
         aria-live="polite"
         aria-atomic="true"

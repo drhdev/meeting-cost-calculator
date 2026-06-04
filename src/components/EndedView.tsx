@@ -44,7 +44,7 @@ export function EndedView({ session, onReset, compact = false }: EndedViewProps)
           <p className="text-xs uppercase tracking-wide text-slate-500">{t('ended.duration')}</p>
           <p
             className={`mt-0.5 font-mono font-semibold tabular-nums text-slate-900 dark:text-white ${
-              compact ? 'text-xl' : 'text-3xl'
+              compact ? 'text-4xl' : 'text-5xl sm:text-6xl'
             }`}
           >
             {formatDuration(durationMs)}
@@ -55,7 +55,7 @@ export function EndedView({ session, onReset, compact = false }: EndedViewProps)
           <p
             data-testid="ended-total-cost"
             className={`mt-0.5 font-mono font-semibold tabular-nums text-orange-400 ${
-              compact ? 'text-xl' : 'text-3xl'
+              compact ? 'text-4xl' : 'text-5xl sm:text-6xl'
             }`}
           >
             {formatEuro(totalCost, locale)}

@@ -26,7 +26,10 @@ export async function openSettingsViaHintLink(page: Page) {
 }
 
 export async function closeSettings(page: Page) {
-  await page.getByRole('button', { name: /zurück zum timer|back to timer/i }).click();
+  await page
+    .getByTestId('settings-view')
+    .getByRole('button', { name: /einstellungen übernehmen|apply settings/i })
+    .click();
   await expect(page.getByTestId('timer-view')).toBeVisible();
 }
 
@@ -34,7 +37,7 @@ export async function addStandardTariffInSettings(page: Page) {
   await openSettings(page);
   await page
     .getByRole('button', {
-      name: /mehr tarifmitarbeiter|increase collective agreement staff/i,
+      name: /mehr tarifmitarbeiter|increase collective agreement employee/i,
     })
     .click();
   await closeSettings(page);

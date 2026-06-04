@@ -171,6 +171,7 @@ export function RunningView({
           displayedCostEuro={displayedCostEuro}
           ratePerMinute={ratePerMinute}
           rateLabel={rateLabel}
+          large
           className="min-w-0 rounded-xl border border-slate-200 bg-white/95 px-3 py-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/90"
         />
         {participantsBlock}
@@ -204,6 +205,7 @@ export function RunningView({
           costLabel={t('running.cost')}
           elapsedMs={elapsedMs}
           displayedCostEuro={displayedCostEuro}
+          large
           className="min-w-0 rounded-lg border border-slate-200 bg-white/95 px-2 py-3 shadow-sm dark:border-transparent dark:bg-slate-900/90 dark:shadow-none"
         />
         <TimerControls
