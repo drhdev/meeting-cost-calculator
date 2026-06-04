@@ -58,6 +58,40 @@ At the end of a session, short **reflection prompts** help the group discuss val
 
 ---
 
+## FAQ — privacy, data & shared hosting
+
+### Where is my meeting data stored?
+
+**Only in your browser tab** for that visit. Participant counts, timer state, and running costs live in memory (React state). The app does **not** write meeting data to `localStorage`, a server database, or user accounts. When you close or refresh the page, that session is gone unless you start again.
+
+### Can many people use one URL (e.g. `mcc.lanxys.net`) at the same time?
+
+**Yes.** Each person (and each browser tab) runs an **independent** session. Deploying on a server like `mcc.lanxys.net` only serves **static files** (HTML, JS, CSS) — the same as hosting a PDF or a static website. There is **no backend API** and **no shared server-side session**, so meetings do **not** mix.
+
+### What does the server actually share between users?
+
+Only **deployment configuration**, not live meeting data:
+
+- Default salaries and work-day assumptions from the **build** / `.env` (same calculator model for everyone on that deployment)
+- The app version and static assets (optionally cached by the PWA service worker)
+
+That is like everyone using the same type of calculator — not the same calculation or participant list.
+
+### Do I need an account or login?
+
+**No.** There are no accounts, no login, and no application database for meetings.
+
+### Is meeting data sent to the server while the timer runs?
+
+**No.** Costs are computed **in the browser**. The server is not updated with who is in your meeting or how long it has been running. (Your hosting provider may still log normal web traffic — IP, URL, time — in **web server / proxy logs**; that is infrastructure, not part of MCC.)
+
+### Same person, two tabs — or reload mid-meeting?
+
+- **Two tabs** = two separate timers and two separate configurations.  
+- **Reload** = session in that tab is reset (no built-in “resume last meeting”).
+
+---
+
 ## Quick start (users)
 
 1. Open your deployed URL (or `npm run dev` locally).
