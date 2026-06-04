@@ -1,5 +1,6 @@
 import { useI18n } from '../hooks/useI18n';
 import type { AppLocale } from '../timer/types';
+import { mccIconButton } from '../ui/themeClasses';
 
 interface ThemeToggleProps {
   locale: AppLocale;
@@ -57,9 +58,7 @@ export function ThemeToggle({ locale, isDark, onToggle, compact = false }: Theme
       aria-label={label}
       title={label}
       onClick={onToggle}
-      className={`flex shrink-0 items-center justify-center rounded-lg border border-slate-300 bg-slate-100 text-slate-700 transition hover:bg-slate-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 ${
-        compact ? 'h-9 w-9' : 'h-11 w-11'
-      }`}
+      className={`${mccIconButton} ${compact ? 'h-9 w-9' : 'h-11 w-11'}`}
     >
       {isDark ? <SunIcon /> : <MoonIcon />}
     </button>

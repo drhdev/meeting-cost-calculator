@@ -50,7 +50,7 @@ export function preparePiPDocument(pipWindow: Window, isDark: boolean): void {
   pipDoc.documentElement.classList.toggle('dark', isDark);
   pipDoc.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
   pipDoc.body.className =
-    'min-h-dvh bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100 p-3';
+    'min-h-dvh bg-mcc-bg-light text-mcc-fg dark:bg-mcc-bg dark:text-mcc-fg-light p-3';
 }
 
 export function applyThemeToPiPWindow(pipWindow: Window, isDark: boolean): void {

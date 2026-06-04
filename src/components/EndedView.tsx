@@ -4,6 +4,7 @@ import type { MessageKey } from '../i18n';
 import { moneyLocale } from '../i18n';
 import { useI18n } from '../hooks/useI18n';
 import type { MeetingSession } from '../timer/types';
+import { mccCostLabel, mccCostValue, mccHeading, mccPrimaryButton } from '../ui/themeClasses';
 
 const REFLECTION_KEYS: MessageKey[] = [
   'ended.reflection.goals',
@@ -31,19 +32,19 @@ export function EndedView({ session, onReset, compact = false }: EndedViewProps)
     >
       <header>
         <h1
-          className={`font-bold text-slate-900 dark:text-white ${compact ? 'text-lg' : 'text-2xl'}`}
+          className={`${mccHeading} ${compact ? 'text-lg' : 'text-2xl'}`}
         >
           {t('ended.title')}
         </h1>
       </header>
 
       <div
-        className={`flex flex-col gap-3 rounded-xl border border-slate-200 bg-white/90 shadow-sm dark:border-transparent dark:bg-slate-900/80 dark:shadow-none ${compact ? 'px-3 py-3' : 'gap-4 px-6 py-8'}`}
+        className={`flex flex-col gap-3 rounded-xl border border-mcc-border bg-mcc-panel/90 shadow-sm dark:border-transparent dark:bg-mcc-bg/80 dark:shadow-none ${compact ? 'px-3 py-3' : 'gap-4 px-6 py-8'}`}
       >
         <div>
-          <p className="text-xs uppercase tracking-wide text-slate-500">{t('ended.duration')}</p>
+          <p className="text-xs uppercase tracking-wide text-mcc-fg-subtle">{t('ended.duration')}</p>
           <p
-            className={`mt-0.5 font-mono font-semibold tabular-nums text-slate-900 dark:text-white ${
+            className={`mt-0.5 font-mcc-mono font-semibold tabular-nums text-mcc-fg dark:text-mcc-fg-inverse ${
               compact ? 'text-4xl' : 'text-5xl sm:text-6xl'
             }`}
           >
@@ -51,10 +52,10 @@ export function EndedView({ session, onReset, compact = false }: EndedViewProps)
           </p>
         </div>
         <div>
-          <p className="text-xs uppercase tracking-wide text-orange-300/80">{t('ended.totalCost')}</p>
+          <p className={mccCostLabel}>{t('ended.totalCost')}</p>
           <p
             data-testid="ended-total-cost"
-            className={`mt-0.5 font-mono font-semibold tabular-nums text-orange-400 ${
+            className={`mt-0.5 ${mccCostValue} ${
               compact ? 'text-4xl' : 'text-5xl sm:text-6xl'
             }`}
           >
@@ -68,14 +69,14 @@ export function EndedView({ session, onReset, compact = false }: EndedViewProps)
         className={`mx-auto w-full max-w-md text-left ${compact ? 'space-y-3' : 'space-y-4'}`}
       >
         <h2
-          className={`font-semibold uppercase tracking-wide text-slate-500 ${
+          className={`font-semibold uppercase tracking-wide text-mcc-fg-subtle ${
             compact ? 'text-[10px]' : 'text-xs'
           }`}
         >
           {t('ended.reflection.title')}
         </h2>
         <ul
-          className={`list-disc space-y-2 pl-5 text-slate-800 dark:text-slate-200 ${
+          className={`list-disc space-y-2 pl-5 text-mcc-fg-body dark:text-mcc-fg-on-dark ${
             compact ? 'text-xs leading-snug' : 'text-sm leading-relaxed'
           }`}
         >
@@ -84,7 +85,7 @@ export function EndedView({ session, onReset, compact = false }: EndedViewProps)
           ))}
         </ul>
         <p
-          className={`border-t border-slate-200 pt-3 font-medium text-slate-800 dark:border-slate-700 dark:text-slate-200 ${
+          className={`border-t border-mcc-border pt-3 font-medium text-mcc-fg-body dark:border-mcc-border-subtle dark:text-mcc-fg-on-dark ${
             compact ? 'text-xs leading-snug' : 'text-sm leading-relaxed'
           }`}
         >
@@ -97,7 +98,7 @@ export function EndedView({ session, onReset, compact = false }: EndedViewProps)
           href={tipsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={`flex items-center justify-center rounded-lg bg-slate-200 font-semibold text-slate-900 hover:bg-slate-300 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600 ${
+          className={`flex items-center justify-center rounded-lg bg-mcc-control font-semibold text-mcc-fg hover:bg-mcc-control-hover dark:bg-mcc-control-dark dark:text-mcc-fg-inverse dark:hover:bg-mcc-control-dark-hover ${
             compact ? 'min-h-9 px-3 text-xs' : 'min-h-11 rounded-xl px-4 text-sm'
           }`}
         >
@@ -106,7 +107,7 @@ export function EndedView({ session, onReset, compact = false }: EndedViewProps)
         <button
           type="button"
           onClick={onReset}
-          className={`flex items-center justify-center rounded-lg bg-orange-500 font-semibold text-white hover:bg-orange-400 ${
+          className={`flex items-center justify-center rounded-lg ${mccPrimaryButton} ${
             compact ? 'min-h-9 px-3 text-xs' : 'min-h-11 rounded-xl px-4 text-sm'
           }`}
         >

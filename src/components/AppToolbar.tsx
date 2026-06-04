@@ -1,5 +1,6 @@
 import { useI18n } from '../hooks/useI18n';
 import type { AppLocale } from '../timer/types';
+import { mccHeading, mccIconButton } from '../ui/themeClasses';
 import { ThemeToggle } from './ThemeToggle';
 
 interface AppToolbarProps {
@@ -41,9 +42,7 @@ export function AppToolbar({
   compact = false,
 }: AppToolbarProps) {
   const { t } = useI18n(locale);
-  const btnClass = `flex shrink-0 items-center justify-center rounded-lg border border-slate-300 bg-slate-100 text-slate-700 transition hover:bg-slate-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 ${
-    compact ? 'h-9 w-9' : 'h-11 w-11'
-  }`;
+  const btnClass = `${mccIconButton} ${compact ? 'h-9 w-9' : 'h-11 w-11'}`;
 
   return (
     <div
@@ -53,17 +52,13 @@ export function AppToolbar({
       <div className="min-w-0 flex-1">
         {settingsOpen ? (
           <h1
-            className={`truncate font-bold text-slate-900 dark:text-white ${
-              compact ? 'text-base' : 'text-lg'
-            }`}
+            className={`truncate ${mccHeading} ${compact ? 'text-base' : 'text-lg'}`}
           >
             {t('settings.title')}
           </h1>
         ) : (
           <h1
-            className={`truncate font-bold text-slate-900 dark:text-white ${
-              compact ? 'text-base' : 'text-lg'
-            }`}
+            className={`truncate ${mccHeading} ${compact ? 'text-base' : 'text-lg'}`}
           >
             {t('app.title')}
           </h1>

@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useI18n } from '../hooks/useI18n';
 import type { AppLocale } from '../timer/types';
+import { mccHeading, mccPageShell } from '../ui/themeClasses';
 import { RunningView, type RunningViewProps } from './RunningView';
 
 interface DistractionFreeLayerProps extends RunningViewProps {
@@ -23,7 +24,7 @@ export function DistractionFreeLayer({
       {pipWindow && createPortal(panel, pipWindow.document.body)}
       {!pipActive && (
         <div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-y-auto bg-slate-100 p-4 dark:bg-slate-950"
+          className={`fixed inset-0 z-50 flex flex-col items-center justify-center overflow-y-auto p-4 ${mccPageShell}`}
           data-testid="focus-overlay"
         >
           <div className="w-full max-w-sm">{panel}</div>
@@ -31,14 +32,12 @@ export function DistractionFreeLayer({
       )}
       {pipActive && (
         <div
-          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-2 bg-slate-100 px-6 text-center dark:bg-slate-950"
+          className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-2 px-6 text-center ${mccPageShell}`}
           data-testid="focus-pip-placeholder"
         >
-          <p className="text-lg font-semibold text-slate-900 dark:text-white">
-            {t('focus.overlayTitle')}
-          </p>
-          <p className="text-sm text-slate-600 dark:text-slate-400">{t('focus.pipActive')}</p>
-          <p className="text-xs text-slate-500">{t('focus.pipHint')}</p>
+          <p className={`text-lg font-semibold ${mccHeading}`}>{t('focus.overlayTitle')}</p>
+          <p className="text-sm text-mcc-fg-muted dark:text-mcc-fg-muted-dark">{t('focus.pipActive')}</p>
+          <p className="text-xs text-mcc-fg-subtle">{t('focus.pipHint')}</p>
         </div>
       )}
     </>

@@ -1,6 +1,7 @@
 import { formatEuro } from '../domain/cost';
 import { moneyLocale } from '../i18n';
 import type { AppLocale } from '../timer/types';
+import { mccCostLabel, mccCostValue } from '../ui/themeClasses';
 
 interface CostDisplayProps {
   locale: AppLocale;
@@ -23,19 +24,17 @@ export function CostDisplay({
 
   return (
     <div className="flex flex-col items-center gap-1">
-      <span className="text-xs font-medium uppercase tracking-wide text-orange-300/80">{label}</span>
+      <span className={mccCostLabel}>{label}</span>
       <p
         data-testid="cost-display"
-        className={`font-mono font-semibold tabular-nums tracking-tight text-orange-400 ${
-          large ? 'text-6xl sm:text-7xl' : 'text-4xl sm:text-5xl'
-        }`}
+        className={`${mccCostValue} ${large ? 'text-6xl sm:text-7xl' : 'text-4xl sm:text-5xl'}`}
         aria-live="polite"
         aria-atomic="true"
       >
         {formatted}
       </p>
       {ratePerMinute !== undefined && ratePerMinute > 0 && rateLabel && (
-        <span className="text-xs text-slate-600 dark:text-slate-500">{rateLabel}</span>
+        <span className="text-xs text-mcc-fg-muted dark:text-mcc-fg-subtle">{rateLabel}</span>
       )}
     </div>
   );

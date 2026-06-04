@@ -4,6 +4,7 @@ import {
 } from '../domain/customPersonas';
 import { useI18n } from '../hooks/useI18n';
 import type { AppLocale } from '../timer/types';
+import { mccFieldInput, mccFocusRing } from '../ui/themeClasses';
 import { ParticipantStepper } from './ParticipantStepper';
 
 interface CustomPersonaEditorProps {
@@ -14,8 +15,7 @@ interface CustomPersonaEditorProps {
   invalid?: boolean;
 }
 
-const inputClass =
-  'min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 placeholder:text-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500';
+const inputClass = mccFieldInput;
 
 export function CustomPersonaEditor({
   locale,
@@ -32,14 +32,14 @@ export function CustomPersonaEditor({
     <div
       className={`flex flex-col gap-2 rounded-xl border px-3 py-3 ${
         invalid
-          ? 'border-amber-500/60 bg-amber-500/5'
-          : 'border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50'
+          ? 'border-mcc-warning-emphasis/60 bg-mcc-warning-emphasis/5'
+          : 'border-mcc-border bg-mcc-surface-light dark:border-mcc-border-subtle dark:bg-mcc-surface/50'
       }`}
       data-testid={`custom-persona-${persona.id}`}
     >
       <div className="flex flex-col gap-2 sm:grid sm:grid-cols-[1fr_8rem_auto] sm:items-end sm:gap-2">
         <label className="flex min-w-0 flex-col gap-1">
-          <span className="text-xs font-medium text-slate-600 dark:text-slate-400">
+          <span className="text-xs font-medium text-mcc-fg-muted dark:text-mcc-fg-muted-dark">
             {t('setup.customPersona.label')}
           </span>
           <input
@@ -53,7 +53,7 @@ export function CustomPersonaEditor({
           />
         </label>
         <label className="flex flex-col gap-1">
-          <span className="text-xs font-medium text-slate-600 dark:text-slate-400">
+          <span className="text-xs font-medium text-mcc-fg-muted dark:text-mcc-fg-muted-dark">
             {t('setup.customPersona.salary')}
           </span>
           <input
@@ -68,7 +68,7 @@ export function CustomPersonaEditor({
                 annualSalaryEuro: Number(e.target.value) || 0,
               })
             }
-            className={`${inputClass} font-mono tabular-nums`}
+            className={`${inputClass} font-mcc-mono tabular-nums`}
             aria-invalid={invalid}
           />
         </label>
@@ -76,7 +76,7 @@ export function CustomPersonaEditor({
           type="button"
           onClick={onRemove}
           aria-label={t('a11y.removeCustomPersona')}
-          className="min-h-11 shrink-0 rounded-lg border border-slate-300 px-3 text-sm font-medium text-slate-700 transition hover:bg-slate-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700"
+          className={`min-h-11 shrink-0 rounded-lg border border-mcc-border-strong px-3 text-sm font-medium text-mcc-fg-secondary transition hover:bg-mcc-control ${mccFocusRing} dark:border-mcc-border-dark dark:text-mcc-fg-body-dark dark:hover:bg-mcc-control-dark`}
         >
           {t('setup.customPersona.remove')}
         </button>

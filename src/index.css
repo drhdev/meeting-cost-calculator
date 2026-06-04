@@ -3,10 +3,64 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  /* Page & surfaces */
   --color-mcc-bg: #0f172a;
+  --color-mcc-bg-light: #f1f5f9;
   --color-mcc-surface: #1e293b;
+  --color-mcc-surface-light: #f8fafc;
+  --color-mcc-panel: #ffffff;
+
+  /* Text */
+  --color-mcc-fg: #0f172a;
+  --color-mcc-fg-light: #f1f5f9;
+  --color-mcc-fg-muted: #475569;
+  --color-mcc-fg-muted-dark: #94a3b8;
+  --color-mcc-fg-subtle: #64748b;
+  --color-mcc-fg-secondary: #334155;
+  --color-mcc-fg-body: #1e293b;
+  --color-mcc-fg-body-dark: #cbd5e1;
+  --color-mcc-fg-on-dark: #e2e8f0;
+  --color-mcc-fg-placeholder: #94a3b8;
+  --color-mcc-fg-inverse: #ffffff;
+  --color-mcc-fg-accent-light: #9a3412;
+  --color-mcc-fg-accent-dark: #fdba74;
+
+  /* Borders & controls */
+  --color-mcc-border: #e2e8f0;
+  --color-mcc-border-strong: #cbd5e1;
+  --color-mcc-border-dark: #475569;
+  --color-mcc-border-subtle: #334155;
+  --color-mcc-control: #e2e8f0;
+  --color-mcc-control-hover: #cbd5e1;
+  --color-mcc-control-dark: #334155;
+  --color-mcc-control-dark-hover: #475569;
+
+  /* Primary actions (timer controls) */
+  --color-mcc-action: #334155;
+  --color-mcc-action-hover: #475569;
+  --color-mcc-action-dark: #475569;
+  --color-mcc-action-dark-hover: #64748b;
+
+  /* Brand / cost */
   --color-mcc-accent: #f97316;
+  --color-mcc-accent-hover: #fb923c;
   --color-mcc-cost: #fb923c;
+  --color-mcc-cost-label: #fdba74;
+  --color-mcc-on-accent: #ffffff;
+
+  /* Warnings & validation */
+  --color-mcc-warning: #d97706;
+  --color-mcc-warning-dark: #fbbf24;
+  --color-mcc-warning-hover: #b45309;
+  --color-mcc-warning-hover-dark: #fcd34d;
+  --color-mcc-warning-emphasis: #f59e0b;
+
+  /* Focus & rings */
+  --color-mcc-ring: #94a3b8;
+  --color-mcc-ring-dark: #64748b;
+  --color-mcc-ring-offset-light: #f1f5f9;
+  --color-mcc-ring-offset-dark: #0f172a;
+
   --font-mcc-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
@@ -28,13 +82,13 @@ body {
     'Segoe UI',
     Roboto,
     sans-serif;
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: var(--color-mcc-bg-light);
+  color: var(--color-mcc-fg);
 }
 
 .dark body {
   background-color: var(--color-mcc-bg);
-  color: #f1f5f9;
+  color: var(--color-mcc-fg-light);
 }
 
 :focus {
@@ -42,6 +96,6 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid #f97316;
+  outline: 2px solid var(--color-mcc-accent);
   outline-offset: 2px;
 }

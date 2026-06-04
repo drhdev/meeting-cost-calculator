@@ -3,6 +3,7 @@ import { formatEuro } from '../domain/cost';
 import { moneyLocale, type MessageKey } from '../i18n';
 import { getSessionRatePerSecond } from '../timer/meetingCalculator';
 import type { MeetingSession } from '../timer/types';
+import { mccFocusRing, mccWarningBanner, mccWarningText } from '../ui/themeClasses';
 import { useI18n } from '../hooks/useI18n';
 import type { AppLocale } from '../timer/types';
 import { CostDisplay } from './CostDisplay';
@@ -78,15 +79,14 @@ function ConfigureHint({
   onOpenSettings: () => void;
 }) {
   const { t } = useI18n(locale);
-  const linkClass =
-    'font-semibold underline underline-offset-2 hover:text-amber-700 focus-visible:rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 dark:hover:text-amber-300';
+  const linkClass = `font-semibold underline underline-offset-2 hover:text-mcc-warning-hover focus-visible:rounded ${mccFocusRing} dark:hover:text-mcc-warning-hover-dark`;
 
   return (
     <p
       className={
         compact
-          ? 'text-center text-xs text-amber-600 dark:text-amber-400'
-          : 'rounded-lg bg-amber-500/10 py-2 text-center text-sm text-amber-600 dark:text-amber-400'
+          ? `text-center text-xs ${mccWarningText}`
+          : `text-center ${mccWarningBanner}`
       }
       role="status"
     >
@@ -127,16 +127,16 @@ export function RunningView({
   const showParticipants = activeGroups.length > 0 || activeCustom.length > 0;
 
   const participantsBlock = showParticipants && (
-    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800/60">
-      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+    <div className="rounded-xl border border-mcc-border bg-mcc-surface-light px-3 py-2 dark:border-mcc-border-subtle dark:bg-mcc-surface/60">
+      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-mcc-fg-subtle">
         {t('running.participants')}
       </p>
-      <ul className="flex flex-wrap gap-1.5 text-xs text-slate-700 dark:text-slate-300 sm:text-sm">
+      <ul className="flex flex-wrap gap-1.5 text-xs text-mcc-fg-secondary dark:text-mcc-fg-body-dark sm:text-sm">
         {activeGroups.map((group) => (
           <li
             key={group}
             data-testid="active-participant"
-            className="rounded-md bg-slate-200 px-2 py-1 font-mono tabular-nums dark:bg-slate-700/80"
+            className="rounded-md bg-mcc-control px-2 py-1 font-mcc-mono tabular-nums dark:bg-mcc-control-dark/80"
           >
             {session.participants[group]}× {t(GROUPS[group].i18nKey as MessageKey)}
           </li>
@@ -146,7 +146,7 @@ export function RunningView({
             key={persona.id}
             data-testid="active-participant"
             data-participant-label={persona.label.trim()}
-            className="rounded-md bg-slate-200 px-2 py-1 font-mono tabular-nums dark:bg-slate-700/80"
+            className="rounded-md bg-mcc-control px-2 py-1 font-mcc-mono tabular-nums dark:bg-mcc-control-dark/80"
           >
             {persona.count}× {persona.label.trim()}
           </li>
@@ -172,7 +172,7 @@ export function RunningView({
           ratePerMinute={ratePerMinute}
           rateLabel={rateLabel}
           large
-          className="min-w-0 rounded-xl border border-slate-200 bg-white/95 px-3 py-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/90"
+          className="min-w-0 rounded-xl border border-mcc-border bg-mcc-panel/95 px-3 py-4 shadow-sm dark:border-mcc-border-subtle dark:bg-mcc-bg/90"
         />
         {participantsBlock}
         <TimerControls
@@ -206,7 +206,7 @@ export function RunningView({
           elapsedMs={elapsedMs}
           displayedCostEuro={displayedCostEuro}
           large
-          className="min-w-0 rounded-lg border border-slate-200 bg-white/95 px-2 py-3 shadow-sm dark:border-transparent dark:bg-slate-900/90 dark:shadow-none"
+          className="min-w-0 rounded-lg border border-mcc-border bg-mcc-panel/95 px-2 py-3 shadow-sm dark:border-transparent dark:bg-mcc-bg/90 dark:shadow-none"
         />
         <TimerControls
           locale={session.locale}
@@ -236,7 +236,7 @@ export function RunningView({
         ratePerMinute={ratePerMinute}
         rateLabel={rateLabel}
         large
-        className="rounded-2xl border border-slate-200 bg-white/90 px-4 py-8 shadow-sm dark:border-transparent dark:bg-slate-900/80 dark:shadow-none"
+        className="rounded-2xl border border-mcc-border bg-mcc-panel/90 px-4 py-8 shadow-sm dark:border-transparent dark:bg-mcc-bg/80 dark:shadow-none"
       />
 
       {participantsBlock}

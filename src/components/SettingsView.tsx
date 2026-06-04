@@ -10,6 +10,7 @@ import { getTotalParticipantCount } from '../domain/types';
 import { useI18n } from '../hooks/useI18n';
 import type { MessageKey } from '../i18n';
 import type { MeetingSession } from '../timer/types';
+import { mccPrimaryButton, mccWarningText } from '../ui/themeClasses';
 import type { AppLocale } from '../timer/types';
 import { CustomPersonaEditor } from './CustomPersonaEditor';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -69,7 +70,7 @@ export function SettingsView({ session, onUpdateSetup, onApply, compact = false 
       data-compact={compact ? 'true' : undefined}
     >
       <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-mcc-fg-subtle">
           {t('setup.standardPersonas')}
         </h2>
         <div className="flex flex-col gap-2">
@@ -91,20 +92,20 @@ export function SettingsView({ session, onUpdateSetup, onApply, compact = false 
 
       <section className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-mcc-fg-subtle">
             {t('setup.customPersonas')}
           </h2>
           <button
             type="button"
             onClick={addCustomPersona}
             disabled={session.customPersonas.length >= CUSTOM_PERSONA_LIMITS.maxPersonas}
-            className="min-h-9 shrink-0 rounded-lg bg-slate-200 px-3 text-xs font-semibold text-slate-800 transition hover:bg-slate-300 disabled:cursor-not-allowed disabled:opacity-40 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
+            className="min-h-9 shrink-0 rounded-lg bg-mcc-control px-3 text-xs font-semibold text-mcc-fg-body transition hover:bg-mcc-control-hover disabled:cursor-not-allowed disabled:opacity-40 dark:bg-mcc-control-dark dark:text-mcc-fg-light dark:hover:bg-mcc-control-dark-hover"
           >
             {t('setup.customPersona.add')}
           </button>
         </div>
         {session.customPersonas.length === 0 ? (
-          <p className="text-sm text-slate-600 dark:text-slate-400">{t('setup.customPersona.hint')}</p>
+          <p className="text-sm text-mcc-fg-muted dark:text-mcc-fg-muted-dark">{t('setup.customPersona.hint')}</p>
         ) : (
           <div className="flex flex-col gap-2">
             {session.customPersonas.map((persona) => (
@@ -122,13 +123,13 @@ export function SettingsView({ session, onUpdateSetup, onApply, compact = false 
       </section>
 
       {hasInvalidCustom && (
-        <p className="text-center text-sm text-amber-600 dark:text-amber-400" role="alert">
+        <p className={`text-center text-sm ${mccWarningText}`} role="alert">
           {t('error.invalidCustomPersona')}
         </p>
       )}
 
       <section className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
+        <span className="text-sm font-medium text-mcc-fg-muted dark:text-mcc-fg-muted-dark">
           {t('setup.costStep')}
         </span>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -140,8 +141,8 @@ export function SettingsView({ session, onUpdateSetup, onApply, compact = false 
               onClick={() => onUpdateSetup({ costStepEuro: step })}
               className={`min-h-11 rounded-lg px-3 text-sm font-semibold transition ${
                 session.costStepEuro === step
-                  ? 'bg-orange-500/20 text-orange-800 ring-2 ring-orange-500 dark:text-orange-300'
-                  : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                  ? 'bg-mcc-accent/20 text-mcc-fg-accent-light ring-2 ring-mcc-accent dark:text-mcc-fg-accent-dark'
+                  : 'bg-mcc-control text-mcc-fg-secondary hover:bg-mcc-control-hover dark:bg-mcc-surface dark:text-mcc-fg-body-dark dark:hover:bg-mcc-control-dark'
               }`}
             >
               {t(COST_STEP_LABELS[step])}
@@ -158,7 +159,7 @@ export function SettingsView({ session, onUpdateSetup, onApply, compact = false 
       <button
         type="button"
         onClick={onApply}
-        className={`flex w-full items-center justify-center rounded-xl bg-orange-500 font-semibold text-white transition hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 ${
+        className={`flex w-full items-center justify-center rounded-xl ${mccPrimaryButton} ${
           compact ? 'min-h-10 px-4 text-sm' : 'min-h-11 px-4 text-sm'
         }`}
       >
