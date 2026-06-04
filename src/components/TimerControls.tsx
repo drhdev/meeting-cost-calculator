@@ -73,12 +73,10 @@ export function TimerControls({
   }`;
   const disabledClass = 'disabled:cursor-not-allowed disabled:opacity-40';
 
-  const playBtn = `${btnBase} bg-green-600 text-white hover:bg-green-500 ${disabledClass}`;
-  const pauseBtn = `${btnBase} bg-yellow-400 text-slate-900 hover:bg-yellow-300 ${disabledClass}`;
-  const stopBtn = `${btnBase} bg-red-600 text-white hover:bg-red-500 ${disabledClass}`;
+  const actionBtn = `${btnBase} bg-slate-700 text-white hover:bg-slate-600 dark:bg-slate-600 dark:hover:bg-slate-500 ${disabledClass}`;
   /** Setup: muted like disabled play/pause so focus stays on configuring participants */
-  const stopSetupBtn = `${btnBase} bg-red-950/35 text-red-300/80 dark:bg-red-950/55 dark:text-red-400/60 ${disabledClass}`;
-  const stopConfirmBtn = `${btnBase} animate-pulse bg-red-600 text-white ring-2 ring-red-400 ring-offset-2 ring-offset-slate-100 hover:bg-red-500 motion-reduce:animate-none dark:ring-offset-slate-950`;
+  const stopSetupBtn = `${btnBase} bg-slate-200 text-slate-500 dark:bg-slate-800/80 dark:text-slate-500 ${disabledClass}`;
+  const stopConfirmBtn = `${btnBase} animate-pulse bg-slate-700 text-white ring-2 ring-slate-400 ring-offset-2 ring-offset-slate-100 hover:bg-slate-600 motion-reduce:animate-none dark:bg-slate-600 dark:hover:bg-slate-500 dark:ring-slate-500 dark:ring-offset-slate-950`;
 
   const isSetup = phase === 'setup';
   const isRunning = phase === 'running';
@@ -97,7 +95,7 @@ export function TimerControls({
           disabled={!playEnabled}
           aria-label={playLabel}
           title={playLabel}
-          className={playBtn}
+          className={actionBtn}
         >
           <PlayIcon className={iconClass} />
         </button>
@@ -107,7 +105,7 @@ export function TimerControls({
           disabled={!isRunning}
           aria-label={t('controls.pause')}
           title={t('controls.pause')}
-          className={pauseBtn}
+          className={actionBtn}
         >
           <PauseIcon className={iconClass} />
         </button>
@@ -122,7 +120,7 @@ export function TimerControls({
               ? stopConfirmBtn
               : phase === 'setup'
                 ? stopSetupBtn
-                : stopBtn
+                : actionBtn
           }
         >
           <StopIcon className={iconClass} />
