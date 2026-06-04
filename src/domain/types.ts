@@ -1,6 +1,6 @@
-import type { GROUPS } from './constants';
+import type { CustomPersona } from './customPersonas';
 
-export type GroupKey = keyof typeof GROUPS;
+export type GroupKey = 'tariff' | 'non_tariff' | 'executive' | 'board';
 
 export type Participants = Record<GroupKey, number>;
 
@@ -19,11 +19,21 @@ export function createEmptyParticipants(): Participants {
   };
 }
 
-export function getTotalParticipantCount(participants: Participants): number {
+export function getStandardParticipantCount(participants: Participants): number {
   return (
     participants.tariff +
     participants.non_tariff +
     participants.executive +
     participants.board
+  );
+}
+
+export function getTotalParticipantCount(
+  participants: Participants,
+  customPersonas: CustomPersona[] = [],
+): number {
+  return (
+    getStandardParticipantCount(participants) +
+    customPersonas.reduce((sum, persona) => sum + persona.count, 0)
   );
 }

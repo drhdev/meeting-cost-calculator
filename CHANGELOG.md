@@ -1,6 +1,26 @@
 # Changelog
 
-All notable changes to Meeting Cost Timer (MCT) are documented in this file.
+All notable changes to Meeting Cost Calculator (MCC) are documented in this file.
+
+## [1.0.1] — 2026-06-04
+
+### Changed
+
+- Work-time model: **220 work days/year** (no sick days; 11 public holidays instead of 10 + 5 sick)
+- Ended screen: reflection questions instead of single “Was it worth it?” line
+- Calculation parameters configurable via `VITE_*` env vars (see `.env.example`)
+
+### Added
+
+- Custom personas in setup: own label, annual salary (€), and participant count per session (up to 12 groups)
+- Light/dark theme toggle in the running timer view (defaults to system preference on load)
+- Playwright E2E coverage for custom personas, theme, English UI, and pause/resume
+
+### Changed
+
+- Product rename from Meeting Cost Timer (MCT) to Meeting Cost Calculator (MCC); package slug `meeting-cost-calculator`
+- Setup split into **Standard personas** (fixed salary models) and **Custom personas**
+- Docker Compose service/env: `mcc` / `MCC_PORT` (was `mct` / `MCT_PORT`)
 
 ## [1.0.0] — 2026-06-04
 
@@ -19,5 +39,5 @@ All notable changes to Meeting Cost Timer (MCT) are documented in this file.
 
 ### Model assumptions
 
-- 216 work days per year, 38 h/week, 30 vacation, 5 sick, 10 public holidays
+- 220 work days per year, 38 h/week, 30 vacation, 11 public holidays (no sick days)
 - Costs are estimates, not payroll-accurate

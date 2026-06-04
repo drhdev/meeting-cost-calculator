@@ -1,5 +1,5 @@
 ---
-description: Domäne & Timer-Logik MCT
+description: Domäne & Timer-Logik MCC
 globs: "{src/domain/**,src/timer/**}"
 alwaysApply: false
 ---

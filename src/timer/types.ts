@@ -1,3 +1,4 @@
+import type { CustomPersona } from '../domain/customPersonas';
 import type { CostStepEuro, Participants } from '../domain/types';
 
 export type TimerPhase = 'setup' | 'running' | 'paused' | 'stopped_confirm' | 'ended';
@@ -13,6 +14,7 @@ export interface MeetingSession {
   phase: TimerPhase;
   segments: TimerSegment[];
   participants: Participants;
+  customPersonas: CustomPersona[];
   costStepEuro: CostStepEuro;
   locale: AppLocale;
   finalElapsedMs?: number;
@@ -20,5 +22,5 @@ export interface MeetingSession {
 }
 
 export type SetupPatch = Partial<
-  Pick<MeetingSession, 'participants' | 'costStepEuro' | 'locale'>
+  Pick<MeetingSession, 'participants' | 'customPersonas' | 'costStepEuro' | 'locale'>
 >;

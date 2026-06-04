@@ -1,4 +1,4 @@
-# Docker & Coolify — MCT
+# Docker & Coolify — MCC
 
 Quellen: [Coolify Docker Compose](https://coolify.io/docs/applications/build-packs/docker-compose)
 

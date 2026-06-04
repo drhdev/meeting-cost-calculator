@@ -11,6 +11,7 @@ export function createInitialSession(): MeetingSession {
     phase: 'setup',
     segments: [],
     participants: createEmptyParticipants(),
+    customPersonas: [],
     costStepEuro: 10,
     locale: 'de',
   };
@@ -44,7 +45,7 @@ export function getElapsedMs(session: MeetingSession, nowPerf: number): number {
 }
 
 export function getSessionRatePerSecond(session: MeetingSession): number {
-  return getTotalRatePerSecond(session.participants);
+  return getTotalRatePerSecond(session.participants, session.customPersonas);
 }
 
 export function getSessionElapsedCostEuro(session: MeetingSession, nowPerf: number): number {

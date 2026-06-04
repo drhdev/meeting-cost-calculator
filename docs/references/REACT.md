@@ -1,4 +1,4 @@
-# React 19 — MCT-relevante Patterns
+# React 19 — MCC-relevante Patterns
 
 Quellen: [react.dev](https://react.dev/learn), [Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks)
 
@@ -10,7 +10,7 @@ Quellen: [react.dev](https://react.dev/learn), [Rules of Hooks](https://react.de
 
 ## useEffect — wann ja / nein
 
-| Situation | MCT-Ansatz |
+| Situation | MCC-Ansatz |
 |-----------|------------|
 | `elapsedMs` aus Session berechnen | **Render** / Hook-Rückgabe |
 | Kosten aus elapsed + rate | **Render** |
@@ -28,9 +28,9 @@ useEffect(() => {
 const displayCost = quantizeCostDisplay(elapsedCostEuro, step);
 ```
 
-## State-Management in MCT
+## State-Management in MCC
 
-- **Session:** `useReducer` mit Actions aus `meetingTimer.ts`
+- **Session:** `useReducer` mit Actions aus `meetingCalculator.ts`
 - **Kein** Zustand/Redux — App klein genug
 - Locale & Setup-Werte leben in derselben Session oder dediziertem Setup-State vor Start
 
@@ -45,7 +45,7 @@ EndedView        → summary
 
 Presentational vs Container:
 
-- **Container:** `useMeetingTimer` in `App` oder `RunningView`
+- **Container:** `useMeetingCalculator` in `App` oder `RunningView`
 - **Presentational:** `TimeDisplay`, `CostDisplay` — nur Props
 
 ## Performance
@@ -59,7 +59,7 @@ Presentational vs Container:
 - Dev doppelte Effects akzeptieren — Timer-Effect **idempotent** + cleanup
 - Tests mit fake timers, nicht von Strict Mode abhängig
 
-## Verbotene Patterns für MCT
+## Verbotene Patterns für MCC
 
 - `useEffect` + `setState` für jeden Tick der **berechenbar** ist (nur Display-Tick-State ok)
 - Globale Singletons für Timer

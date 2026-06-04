@@ -11,9 +11,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'icons/*.png'],
       manifest: {
-        name: 'Meeting Cost Timer',
-        short_name: 'MCT',
-        description: 'Live meeting personnel cost tracker',
+        name: 'Meeting Cost Calculator',
+        short_name: 'MCC',
+        description: 'Live meeting personnel cost calculator',
         theme_color: '#0f172a',
         background_color: '#0f172a',
         display: 'standalone',

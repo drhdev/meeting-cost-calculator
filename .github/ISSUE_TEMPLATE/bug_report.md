@@ -17,7 +17,7 @@ labels: bug
 ## Environment
 
 - Browser / OS:
-- MCT version or commit:
+- MCC version or commit:
 - Normal or compact mode (`?compact=1`)?
 
 ## Screenshots

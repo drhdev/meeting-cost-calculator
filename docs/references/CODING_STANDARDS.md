@@ -1,4 +1,4 @@
-# Coding Standards — MCT (verbindlich)
+# Coding Standards — MCC (verbindlich)
 
 Alle Agenten und Menschen halten diese Regeln ein. Abweichungen nur nach expliziter Nutzerfreigabe.
 

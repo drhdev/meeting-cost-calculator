@@ -1,4 +1,4 @@
-# Cross-Browser Checkliste — MCT v1.0
+# Cross-Browser Checkliste — MCC v1.0
 
 Manuelle Prüfung vor Release. Datum: ___________  Prüfer: ___________
 
@@ -17,7 +17,7 @@ Manuelle Prüfung vor Release. Datum: ___________  Prüfer: ___________
 
 ## Szenarien pro Browser
 
-1. **Setup:** 1× Tarifmitarbeiter, Start aktiv
+1. **Setup:** 1× Tarifmitarbeiter oder eigene Persona (Label + Gehalt + Count), Start aktiv
 2. **Timer:** Start → 10 s → Pause → Resume → Stop → Stop → „War es das wert?“
 3. **Kompakt:** Fenster 320×200, kein horizontaler Scroll
 4. **PWA:** Installieren (wo unterstützt), Offline-Shell nach erstem Laden

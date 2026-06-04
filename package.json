@@ -1,18 +1,18 @@
 {
-  "name": "meeting-cost-timer",
+  "name": "meeting-cost-calculator",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
   "type": "module",
-  "description": "Live meeting personnel cost tracker (MCT)",
-  "license": "MIT",
+  "description": "Live meeting personnel cost calculator (MCC)",
+  "license": "GPL-3.0-or-later",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_ORG/meeting-cost-timer.git"
+    "url": "https://github.com/drhdev/meeting-cost-calculator.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_ORG/meeting-cost-timer/issues"
+    "url": "https://github.com/drhdev/meeting-cost-calculator/issues"
   },
-  "homepage": "https://github.com/YOUR_ORG/meeting-cost-timer#readme",
+  "homepage": "https://github.com/drhdev/meeting-cost-calculator#readme",
   "scripts": {
     "dev": "vite",
     "icons": "node scripts/generate-pwa-icons.mjs",
@@ -27,7 +27,8 @@
     "test:coverage": "vitest run src/domain --coverage",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "test:ci": "npm run lint && npm run typecheck && npm run test && npm run build && npm run verify:production"
+    "test:ci": "npm run lint && npm run typecheck && npm run test && npm run build && npm run verify:production",
+    "screenshots:readme": "node scripts/generate-readme-screenshots.mjs"
   },
   "dependencies": {
     "react": "^19.2.7",

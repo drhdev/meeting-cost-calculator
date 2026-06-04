@@ -12,21 +12,23 @@ import {
   formatDuration,
   formatEuro,
 } from './cost';
+import { createCustomPersona } from './customPersonas';
 import type { CostStepEuro, GroupKey, Participants } from './types';
+import { createEmptyParticipants } from './types';
 
-const EXPECTED_WORK_DAYS = 216;
+const EXPECTED_WORK_DAYS = 220;
 const EXPECTED_HOURS_PER_DAY = 7.6;
 const EXPECTED_WORK_SECONDS = EXPECTED_WORK_DAYS * EXPECTED_HOURS_PER_DAY * 3600;
 
 const GOLDEN_COST_PER_SECOND: Record<GroupKey, number> = {
-  tariff: 0.0151,
-  non_tariff: 0.0252,
-  executive: 0.0504,
-  board: 0.504,
+  tariff: 0.0149,
+  non_tariff: 0.0249,
+  executive: 0.0498,
+  board: 0.498,
 };
 
 describe('work time assumptions', () => {
-  it('computes 216 work days per year', () => {
+  it('computes 220 work days per year', () => {
     expect(getWorkDaysPerYear()).toBe(EXPECTED_WORK_DAYS);
   });
 
@@ -91,6 +93,25 @@ describe('getTotalRatePerSecond', () => {
         board: 0,
       }),
     ).toThrow(RangeError);
+  });
+
+  it('includes custom personas with their annual salary', () => {
+    const devOps = createCustomPersona({
+      label: 'DevOps',
+      annualSalaryEuro: 60_000,
+      count: 3,
+    });
+    const marketing = createCustomPersona({
+      label: 'Marketing Experts',
+      annualSalaryEuro: 75_000,
+      count: 2,
+    });
+    const expected =
+      3 * getCostPerSecond(60_000) + 2 * getCostPerSecond(75_000);
+    expect(getTotalRatePerSecond(createEmptyParticipants(), [devOps, marketing])).toBeCloseTo(
+      expected,
+      10,
+    );
   });
 });
 

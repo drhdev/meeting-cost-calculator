@@ -1,5 +1,5 @@
 ---
-description: React 19 UI-Patterns MCT
+description: React 19 UI-Patterns MCC
 globs: "**/*.tsx"
 alwaysApply: false
 ---

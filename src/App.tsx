@@ -1,12 +1,22 @@
-import { Layout } from './components/Layout';
+import { useMemo, useState } from 'react';
+import { AppToolbar } from './components/AppToolbar';
+import { DistractionFreeLayer } from './components/DistractionFreeLayer';
 import { EndedView } from './components/EndedView';
+import { Layout } from './components/Layout';
 import { RunningView } from './components/RunningView';
-import { SetupView } from './components/SetupView';
+import { SettingsView } from './components/SettingsView';
+import { isCustomPersonaValidForMeeting } from './domain/customPersonas';
+import { getTotalParticipantCount } from './domain/types';
+import { isDistractionFreePhase } from './focus/phase';
 import { useCompactMode } from './hooks/useCompactMode';
-import { useMeetingTimer } from './timer/useMeetingTimer';
+import { useDocumentPiP } from './hooks/useDocumentPiP';
+import { useTheme } from './hooks/useTheme';
+import { useMeetingCalculator } from './timer/useMeetingCalculator';
 
 export default function App() {
   const compact = useCompactMode();
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
   const {
     session,
     elapsedMs,
@@ -17,37 +27,81 @@ export default function App() {
     stop,
     reset,
     updateSetup,
-  } = useMeetingTimer();
+  } = useMeetingCalculator();
 
-  const isRunningPhase =
-    session.phase === 'running' ||
-    session.phase === 'paused' ||
-    session.phase === 'stopped_confirm';
+  const distractionFree = isDistractionFreePhase(session.phase);
+  const { pipWindow, pipActive } = useDocumentPiP(distractionFree, isDark);
+
+  const canStart = useMemo(() => {
+    const total = getTotalParticipantCount(session.participants, session.customPersonas);
+    const customValid = session.customPersonas.every(isCustomPersonaValidForMeeting);
+    return total > 0 && customValid;
+  }, [session.participants, session.customPersonas]);
+
+  const runningProps = {
+    session,
+    elapsedMs,
+    displayedCostEuro,
+    onStart: start,
+    onPause: pause,
+    onResume: resume,
+    onContinue: start,
+    onStop: stop,
+    onOpenSettings: () => setSettingsOpen(true),
+    startDisabled: !canStart,
+    compact,
+  };
+
+  const toolbar = (
+    <AppToolbar
+      locale={session.locale}
+      isDark={isDark}
+      onToggleTheme={toggleTheme}
+      settingsOpen={settingsOpen}
+      onOpenSettings={() => setSettingsOpen(true)}
+      onCloseSettings={() => setSettingsOpen(false)}
+      settingsDisabled={
+        session.phase === 'running' ||
+        session.phase === 'paused' ||
+        session.phase === 'stopped_confirm'
+      }
+      compact={compact}
+    />
+  );
+
+  const showTimer =
+    !settingsOpen &&
+    (session.phase === 'setup' ||
+      session.phase === 'running' ||
+      session.phase === 'paused' ||
+      session.phase === 'stopped_confirm');
+
+  if (distractionFree) {
+    return (
+      <DistractionFreeLayer
+        locale={session.locale}
+        pipWindow={pipWindow}
+        pipActive={pipActive}
+        {...runningProps}
+      />
+    );
+  }
 
   return (
-    <Layout locale={session.locale} compact={compact}>
-      {session.phase === 'setup' && (
-        <SetupView
+    <Layout locale={session.locale} compact={compact} toolbar={toolbar}>
+      {settingsOpen && (
+        <SettingsView session={session} onUpdateSetup={updateSetup} compact={compact} />
+      )}
+      {showTimer && <RunningView {...runningProps} />}
+      {!settingsOpen && session.phase === 'ended' && (
+        <EndedView
           session={session}
-          onUpdateSetup={updateSetup}
-          onStart={start}
+          onReset={() => {
+            reset();
+            setSettingsOpen(false);
+          }}
           compact={compact}
         />
-      )}
-      {isRunningPhase && (
-        <RunningView
-          session={session}
-          elapsedMs={elapsedMs}
-          displayedCostEuro={displayedCostEuro}
-          onPause={pause}
-          onResume={resume}
-          onContinue={start}
-          onStop={stop}
-          compact={compact}
-        />
-      )}
-      {session.phase === 'ended' && (
-        <EndedView session={session} onReset={reset} compact={compact} />
       )}
     </Layout>
   );

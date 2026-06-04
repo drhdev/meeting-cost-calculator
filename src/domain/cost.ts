@@ -1,10 +1,10 @@
+import { computeWorkDaysPerYear } from '../config/env';
 import { GROUPS, WORK_TIME_ASSUMPTIONS } from './constants';
+import type { CustomPersona } from './customPersonas';
 import type { CostStepEuro, GroupKey, MoneyLocale, Participants } from './types';
 
 export function getWorkDaysPerYear(): number {
-  const { daysPerYear, weekendDays, vacationDays, sickDays, publicHolidays } =
-    WORK_TIME_ASSUMPTIONS;
-  return daysPerYear - weekendDays - vacationDays - sickDays - publicHolidays;
+  return computeWorkDaysPerYear(WORK_TIME_ASSUMPTIONS);
 }
 
 export function getHoursPerWorkDay(): number {
@@ -30,7 +30,10 @@ export function getCostPerSecondForGroup(group: GroupKey): number {
   return getCostPerSecond(GROUPS[group].annualSalary);
 }
 
-export function getTotalRatePerSecond(participants: Participants): number {
+export function getTotalRatePerSecond(
+  participants: Participants,
+  customPersonas: CustomPersona[] = [],
+): number {
   let total = 0;
   for (const group of Object.keys(GROUPS) as GroupKey[]) {
     const count = participants[group];
@@ -38,6 +41,12 @@ export function getTotalRatePerSecond(participants: Participants): number {
       throw new RangeError(`participant count for ${group} must be non-negative`);
     }
     total += count * getCostPerSecondForGroup(group);
+  }
+  for (const persona of customPersonas) {
+    if (persona.count < 0) {
+      throw new RangeError(`participant count for custom persona ${persona.id} must be non-negative`);
+    }
+    total += persona.count * getCostPerSecond(persona.annualSalaryEuro);
   }
   return total;
 }

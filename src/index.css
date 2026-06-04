@@ -1,11 +1,13 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --color-mct-bg: #0f172a;
-  --color-mct-surface: #1e293b;
-  --color-mct-accent: #f97316;
-  --color-mct-cost: #fb923c;
-  --font-mct-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --color-mcc-bg: #0f172a;
+  --color-mcc-surface: #1e293b;
+  --color-mcc-accent: #f97316;
+  --color-mcc-cost: #fb923c;
+  --font-mcc-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -26,7 +28,12 @@ body {
     'Segoe UI',
     Roboto,
     sans-serif;
-  background-color: var(--color-mct-bg);
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.dark body {
+  background-color: var(--color-mcc-bg);
   color: #f1f5f9;
 }
 

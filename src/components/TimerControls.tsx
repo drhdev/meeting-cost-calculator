@@ -14,6 +14,48 @@ interface TimerControlsProps {
   compact?: boolean;
 }
 
+function PlayIcon({ className }: { className: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden
+    >
+      <path d="M8 5.14v13.72L19 12 8 5.14z" />
+    </svg>
+  );
+}
+
+function PauseIcon({ className }: { className: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden
+    >
+      <path d="M6 5h4v14H6V5zm8 0h4v14h-4V5z" />
+    </svg>
+  );
+}
+
+function StopIcon({ className }: { className: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden
+    >
+      <path d="M6 6h12v12H6V6z" />
+    </svg>
+  );
+}
+
 export function TimerControls({
   locale,
   phase,
@@ -27,67 +69,71 @@ export function TimerControls({
 }: TimerControlsProps) {
   const { t } = useI18n(locale);
 
-  const btnBase = `flex flex-1 items-center justify-center rounded-lg font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 ${
-    compact ? 'min-h-9 px-2 text-xs' : 'min-h-11 rounded-xl px-4 text-sm'
+  const iconClass = compact ? 'h-5 w-5' : 'h-6 w-6';
+  const btnBase = `flex flex-1 items-center justify-center rounded-lg transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 ${
+    compact ? 'min-h-9 px-2' : 'min-h-11 rounded-xl px-4'
   }`;
+  const disabledClass = 'disabled:cursor-not-allowed disabled:opacity-40';
 
-  if (phase === 'setup') {
-    return (
-      <button
-        type="button"
-        onClick={onStart}
-        disabled={startDisabled}
-        className={`${btnBase} bg-orange-500 text-white hover:bg-orange-400 disabled:cursor-not-allowed disabled:opacity-40`}
-      >
-        {t('controls.start')}
-      </button>
-    );
-  }
+  const playBtn = `${btnBase} bg-green-600 text-white hover:bg-green-500 ${disabledClass}`;
+  const pauseBtn = `${btnBase} bg-yellow-400 text-slate-900 hover:bg-yellow-300 ${disabledClass}`;
+  const stopBtn = `${btnBase} bg-red-600 text-white hover:bg-red-500 ${disabledClass}`;
+  const stopConfirmBtn = `${btnBase} animate-pulse bg-red-600 text-white ring-2 ring-red-400 ring-offset-2 ring-offset-slate-100 hover:bg-red-500 motion-reduce:animate-none dark:ring-offset-slate-950`;
+
+  const startActive = phase === 'setup';
+  const pauseActive = phase === 'running';
+  const resumeActive = phase === 'paused' || phase === 'stopped_confirm';
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-2">
-        {phase === 'running' && (
+        <button
+          type="button"
+          onClick={startActive ? onStart : undefined}
+          disabled={!startActive || startDisabled}
+          aria-label={t('controls.start')}
+          title={t('controls.start')}
+          className={playBtn}
+        >
+          <PlayIcon className={iconClass} />
+        </button>
+        {resumeActive ? (
           <button
             type="button"
-            onClick={onPause}
-            className={`${btnBase} bg-slate-700 text-white hover:bg-slate-600`}
+            onClick={phase === 'paused' ? onResume : onContinue}
+            disabled={phase === 'stopped_confirm' && !onContinue}
+            aria-label={t('controls.resume')}
+            title={t('controls.resume')}
+            className={playBtn}
           >
-            {t('controls.pause')}
+            <PlayIcon className={iconClass} />
           </button>
-        )}
-        {phase === 'paused' && (
+        ) : (
           <button
             type="button"
-            onClick={onResume}
-            className={`${btnBase} bg-orange-500 text-white hover:bg-orange-400`}
+            onClick={pauseActive ? onPause : undefined}
+            disabled={!pauseActive}
+            aria-label={t('controls.pause')}
+            title={t('controls.pause')}
+            className={pauseBtn}
           >
-            {t('controls.resume')}
-          </button>
-        )}
-        {phase === 'stopped_confirm' && onContinue && (
-          <button
-            type="button"
-            onClick={onContinue}
-            className={`${btnBase} bg-slate-700 text-white hover:bg-slate-600`}
-          >
-            {t('controls.resume')}
+            <PauseIcon className={iconClass} />
           </button>
         )}
         <button
           type="button"
           onClick={onStop}
-          className={`${btnBase} ${
-            phase === 'stopped_confirm'
-              ? 'animate-pulse bg-red-600 text-white ring-2 ring-red-400 ring-offset-2 ring-offset-slate-950 hover:bg-red-500 motion-reduce:animate-none'
-              : 'bg-slate-700 text-white hover:bg-slate-600'
-          }`}
+          aria-label={t('controls.stop')}
+          title={t('controls.stop')}
+          className={phase === 'stopped_confirm' ? stopConfirmBtn : stopBtn}
         >
-          {t('controls.stop')}
+          <StopIcon className={iconClass} />
         </button>
       </div>
       {phase === 'stopped_confirm' && (
-        <p className="text-center text-sm font-medium text-amber-400">{t('stopped.hint')}</p>
+        <p className="text-center text-sm font-medium text-amber-600 dark:text-amber-400">
+          {t('stopped.hint')}
+        </p>
       )}
     </div>
   );

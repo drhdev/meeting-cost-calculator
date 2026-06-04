@@ -1,5 +1,5 @@
 ---
-description: Test-Standards MCT
+description: Test-Standards MCC
 globs: "{**/*.test.{ts,tsx},e2e/**}"
 alwaysApply: false
 ---

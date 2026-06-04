@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useMeetingTimer } from './useMeetingTimer';
+import { useMeetingCalculator } from './useMeetingCalculator';
 
-describe('useMeetingTimer', () => {
+describe('useMeetingCalculator', () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -12,7 +12,7 @@ describe('useMeetingTimer', () => {
   });
 
   it('exports session and timer actions', () => {
-    const { result } = renderHook(() => useMeetingTimer());
+    const { result } = renderHook(() => useMeetingCalculator());
     expect(result.current.session.phase).toBe('setup');
     expect(typeof result.current.start).toBe('function');
     expect(typeof result.current.pause).toBe('function');
@@ -23,7 +23,7 @@ describe('useMeetingTimer', () => {
   });
 
   it('updates elapsed while running', () => {
-    const { result } = renderHook(() => useMeetingTimer());
+    const { result } = renderHook(() => useMeetingCalculator());
 
     act(() => {
       result.current.updateSetup({
@@ -47,7 +47,7 @@ describe('useMeetingTimer', () => {
   });
 
   it('does not advance elapsed while paused', () => {
-    const { result } = renderHook(() => useMeetingTimer());
+    const { result } = renderHook(() => useMeetingCalculator());
 
     act(() => {
       result.current.updateSetup({

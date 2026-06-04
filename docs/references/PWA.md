@@ -1,8 +1,8 @@
-# PWA — MCT (vite-plugin-pwa)
+# PWA — MCC (vite-plugin-pwa)
 
 Quellen: [vite-pwa Guide](https://vite-pwa-org.netlify.app/guide/), [web.dev/learn/pwa](https://web.dev/learn/pwa/)
 
-## Strategie für MCT
+## Strategie für MCC
 
 | Aspekt | Wahl |
 |--------|------|
@@ -18,8 +18,8 @@ VitePWA({
   registerType: 'autoUpdate',
   includeAssets: ['favicon.svg', 'icons/*.png'],
   manifest: {
-    name: 'Meeting Cost Timer',
-    short_name: 'MCT',
+    name: 'Meeting Cost Calculator',
+    short_name: 'MCC',
     display: 'standalone',
     start_url: '/',
     theme_color: '#0f172a',

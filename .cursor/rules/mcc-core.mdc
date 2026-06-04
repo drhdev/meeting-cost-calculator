@@ -1,9 +1,9 @@
 ---
-description: MCT Kernregeln — immer lesen vor jeder Änderung
+description: MCC Kernregeln — immer lesen vor jeder Änderung
 alwaysApply: true
 ---
 
-# Meeting Cost Timer — Core
+# Meeting Cost Calculator — Core
 
 1. Lies `AGENTS.md` und `docs/IMPLEMENTATION_PLAN.md` (aktuelle Phase).
 2. Halte `docs/references/CODING_STANDARDS.md` ein.

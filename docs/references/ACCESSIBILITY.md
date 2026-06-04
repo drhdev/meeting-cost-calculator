@@ -1,4 +1,4 @@
-# Accessibility — MCT
+# Accessibility — MCC
 
 Quellen: [WCAG 2.2 Quickref](https://www.w3.org/WAI/WCAG22/quickref/), [ARIA live regions](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions)
 

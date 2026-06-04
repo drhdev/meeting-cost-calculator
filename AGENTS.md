@@ -1,4 +1,4 @@
-# AGENTS.md — Meeting Cost Timer (MCT)
+# AGENTS.md — Meeting Cost Calculator (MCC)
 
 Diese Datei ist der **Einstiegspunkt für alle KI-Coding-Agenten** (Cursor, Codex, Claude Code, etc.).
 

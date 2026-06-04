@@ -1,4 +1,4 @@
-# Vite 8 — MCT Setup
+# Vite 8 — MCC Setup
 
 Quellen: [vite.dev/guide](https://vite.dev/guide/), [Vite 8 Release](https://vite.dev/blog/announcing-vite8)
 
@@ -19,7 +19,7 @@ export default defineConfig({
 });
 ```
 
-## MCT-spezifische Einstellungen
+## MCC-spezifische Einstellungen
 
 | Option | Wert | Grund |
 |--------|------|-------|
@@ -61,7 +61,7 @@ export default defineConfig({
 
 - `rollupOptions` / `esbuild` manuell tweaken ohne Grund (Vite 8 = Rolldown)
 - CommonJS in App-Code (ESM only)
-- Mehrere HTML-Entry-Points (nicht nötig für MCT)
+- Mehrere HTML-Entry-Points (nicht nötig für MCC)
 
 ## Upgrade Vite 7 → 8
 

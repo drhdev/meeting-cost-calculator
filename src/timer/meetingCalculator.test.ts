@@ -11,7 +11,7 @@ import {
   stop,
   stopConfirm,
   stopOnce,
-} from './meetingTimer';
+} from './meetingCalculator';
 
 function sessionWithOneTariff() {
   return {
@@ -27,6 +27,7 @@ describe('createInitialSession', () => {
     expect(session.segments).toEqual([]);
     expect(session.costStepEuro).toBe(10);
     expect(session.locale).toBe('de');
+    expect(session.customPersonas).toEqual([]);
   });
 });
 

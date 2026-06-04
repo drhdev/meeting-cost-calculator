@@ -1,8 +1,8 @@
-# Meeting Cost Timer (MCT) — Agent-Umsetzungsplan
+# Meeting Cost Calculator (MCC) — Agent-Umsetzungsplan
 
 > **Ziel:** Dieses Dokument Schritt für Schritt abarbeiten, bis die App production-ready ist.  
 > **Zielgruppe:** KI-Coding-Agenten (Codex, Cursor Agent, etc.)  
-> **Repo-Titel:** `meeting-cost-timer` (Kurzname: MCT)  
+> **Repo-Titel:** `meeting-cost-calculator` (Kurzname: MCC)  
 > **Sprache der App:** Deutsch (Standard), Englisch optional
 
 ## Standards & Referenzen (vor Phase 0 lesen)
@@ -108,8 +108,7 @@ export const WORK_TIME_ASSUMPTIONS = {
   daysPerYear: 365,
   weekendDays: 104,
   vacationDays: 30,
-  sickDays: 5,
-  publicHolidays: 10, // Annahme DE-Durchschnitt, in README dokumentieren
+  publicHolidays: 11, // Annahme DE-Durchschnitt, in README dokumentieren
   hoursPerWeek: 38,
   workDaysPerWeek: 5,
 } as const;
@@ -118,7 +117,7 @@ export const WORK_TIME_ASSUMPTIONS = {
 ### Berechnung
 
 ```
-workDaysPerYear = 365 - 104 - 30 - 5 - 10 = 216
+workDaysPerYear = 365 - 104 - 30 - 11 = 220
 hoursPerDay = 38 / 5 = 7.6
 workSecondsPerYear = workDaysPerYear * hoursPerDay * 3600
 
@@ -131,14 +130,14 @@ displayedCostEuro = floor(elapsedCost / stepEuro) * stepEuro
 
 ### Golden-Test-Werte (für Unit-Tests)
 
-Bei Standard-Annahmen (216 Tage, 7,6 h/Tag):
+Bei Standard-Annahmen (220 Tage, 7,6 h/Tag):
 
 | Gruppe | Jahresgehalt | ≈ €/s (1 Person) |
 |--------|--------------|------------------|
-| tariff | 90.000 | ~0,0151 |
-| non_tariff | 150.000 | ~0,0252 |
-| executive | 300.000 | ~0,0504 |
-| board | 3.000.000 | ~0,504 |
+| tariff | 90.000 | ~0,0149 |
+| non_tariff | 150.000 | ~0,0249 |
+| executive | 300.000 | ~0,0498 |
+| board | 3.000.000 | ~0,498 |
 
 *(Exakte Werte im Test mit `toBeCloseTo` prüfen, nicht hardcoden ohne Berechnung.)*
 
@@ -181,7 +180,7 @@ ended
 ## Ziel-Repository-Struktur
 
 ```
-meeting-cost-timer/
+meeting-cost-calculator/
 ├── .github/workflows/ci.yml
 ├── .gitignore
 ├── .nvmrc                          # 22
@@ -215,9 +214,9 @@ meeting-cost-timer/
 │   │   └── cost.test.ts
 │   ├── timer/
 │   │   ├── types.ts
-│   │   ├── meetingTimer.ts
-│   │   ├── useMeetingTimer.ts
-│   │   └── meetingTimer.test.ts
+│   │   ├── meetingCalculator.ts
+│   │   ├── useMeetingCalculator.ts
+│   │   └── meetingCalculator.test.ts
 │   ├── i18n/
 │   │   ├── index.ts
 │   │   ├── de.ts
@@ -250,7 +249,7 @@ meeting-cost-timer/
 ### 0.1 Projekt initialisieren
 
 ```bash
-cd /path/to/meeting-cost-timer
+cd /path/to/meeting-cost-calculator
 npm create vite@latest . -- --template react-ts
 # Falls Verzeichnis nicht leer: Dateien manuell anlegen
 ```
@@ -301,7 +300,7 @@ Jobs: `lint` → `typecheck` → `test` → `build` → `playwright` (nur auf Ub
 
 ### 0.5 Platzhalter-App
 
-- `App.tsx`: Text „MCT — Setup in progress“
+- `App.tsx`: Text „MCC — Setup in progress“
 - `index.css`: Tailwind import, CSS-Variablen für Theme
 
 ## Definition of Done (Phase 0)
@@ -355,8 +354,8 @@ npm run test:ci
 
 Mindestens:
 
-1. `workSecondsPerYear` === 216 * 7.6 * 3600
-2. Ein Person tariff ≈ 0.0151 €/s
+1. `workSecondsPerYear` === 220 * 7.6 * 3600
+2. Ein Person tariff ≈ 0.0149 €/s
 3. 1 tariff + 1 board → Summe der Raten
 4. `quantizeCostDisplay(47.3, 10)` → 40
 5. `quantizeCostDisplay(999.9, 1000)` → 0
@@ -405,7 +404,7 @@ export interface MeetingSession {
 }
 ```
 
-### 2.2 `src/timer/meetingTimer.ts`
+### 2.2 `src/timer/meetingCalculator.ts`
 
 Pure Reducer/Funktionen:
 
@@ -418,13 +417,13 @@ Pure Reducer/Funktionen:
 - `reset(session)` (ended → setup)
 - `getElapsedMs(session, nowPerf = performance.now())`
 
-### 2.3 `src/timer/useMeetingTimer.ts`
+### 2.3 `src/timer/useMeetingCalculator.ts`
 
 - React-Hook mit `useReducer` oder `useState` + Funktionen aus 2.2
 - `useEffect` mit `requestAnimationFrame` oder 100 ms `setInterval` **nur** wenn `phase === 'running'`
 - Export: `{ session, elapsedMs, elapsedCostEuro, displayedCostEuro, start, pause, resume, stop, reset }`
 
-### 2.4 Unit-Tests (`src/timer/meetingTimer.test.ts`)
+### 2.4 Unit-Tests (`src/timer/meetingCalculator.test.ts`)
 
 Mit `vi.useFakeTimers()` / manuellen `nowPerf`:
 
@@ -556,7 +555,7 @@ Abschnitt „Kompaktfenster für Videokonferenzen“:
 
 ```js
 // Beispiel für Nutzer
-window.open('https://your-domain/?compact=1', 'mct', 'width=340,height=220,resizable=yes');
+window.open('https://your-domain/?compact=1', 'mcc', 'width=340,height=220,resizable=yes');
 ```
 
 ## Definition of Done (Phase 4)
@@ -603,8 +602,8 @@ VitePWA({
   registerType: 'autoUpdate',
   includeAssets: ['favicon.svg', 'icons/*.png'],
   manifest: {
-    name: 'Meeting Cost Timer',
-    short_name: 'MCT',
+    name: 'Meeting Cost Calculator',
+    short_name: 'MCC',
     description: 'Live meeting personnel cost tracker',
     theme_color: '#0f172a',
     background_color: '#0f172a',
@@ -696,7 +695,7 @@ EXPOSE 80
 
 ```yaml
 services:
-  mct:
+  mcc:
     build:
       context: .
       args:
@@ -750,7 +749,7 @@ docker compose down
 ### 7.1 Disclaimer & Transparenz
 
 - Sichtbarer Hinweis (Footer oder Setup):
-  - DE: „Schätzung auf Basis modellierter Arbeitstage (216), 38h/Woche, 30 Urlaubstage, 5 Krankheitstage, 10 Feiertage. Keine exakte Lohnabrechnung.“
+  - DE: „Schätzung auf Basis modellierter Arbeitstage (220), 38h/Woche, 30 Urlaubstage, 11 Feiertage. Keine exakte Lohnabrechnung.“
   - EN: entsprechend
 
 ### 7.2 Accessibility-Audit
@@ -779,7 +778,7 @@ docker compose down
 
 Muss enthalten:
 
-- Was ist MCT / wofür
+- Was ist MCC / wofür
 - Kostenformel erklärt
 - Nutzung (Setup → Start → Pause → Doppel-Stop)
 - Kompaktfenster-Anleitung

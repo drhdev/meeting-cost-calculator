@@ -1,4 +1,4 @@
-# Referenzen & Standards — MCT
+# Referenzen & Standards — MCC
 
 Dieser Ordner enthält **verbindliche Projektstandards** und Kurzfassungen offizieller Best Practices.  
 Neue Sessions: zuerst [`AGENTS.md`](../../AGENTS.md) lesen.
@@ -10,7 +10,7 @@ Neue Sessions: zuerst [`AGENTS.md`](../../AGENTS.md) lesen.
 | [STACK.md](./STACK.md) | Tech-Stack, Versionen, Architektur |
 | [CODING_STANDARDS.md](./CODING_STANDARDS.md) | **Verbindliche** Code- & UX-Regeln |
 | [EXTERNAL_DOCS.md](./EXTERNAL_DOCS.md) | Offizielle Dokumentation (Links) |
-| [REACT.md](./REACT.md) | React 19 Patterns für MCT |
+| [REACT.md](./REACT.md) | React 19 Patterns für MCC |
 | [VITE.md](./VITE.md) | Vite 8 Konfiguration & Build |
 | [PWA.md](./PWA.md) | vite-plugin-pwa / Workbox |
 | [TESTING.md](./TESTING.md) | Vitest, RTL, Playwright |

@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { createCustomPersona } from './customPersonas';
 import { createEmptyParticipants, getTotalParticipantCount, COST_STEP_OPTIONS } from './types';
 
 describe('participants helpers', () => {
@@ -20,6 +21,15 @@ describe('participants helpers', () => {
         board: 3,
       }),
     ).toBe(6);
+  });
+
+  it('getTotalParticipantCount includes custom personas', () => {
+    expect(
+      getTotalParticipantCount(createEmptyParticipants(), [
+        createCustomPersona({ count: 3 }),
+        createCustomPersona({ count: 2 }),
+      ]),
+    ).toBe(5);
   });
 });
 

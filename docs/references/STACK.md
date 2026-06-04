@@ -1,4 +1,4 @@
-# Tech Stack — MCT
+# Tech Stack — MCC
 
 Stand: **Juni 2026** (bei Upgrades diese Datei + `package.json` synchron halten).
 
@@ -37,7 +37,7 @@ Browser (PWA optional)
 | Pfad | Verantwortung |
 |------|----------------|
 | `src/domain/` | Kostenformeln, Konstanten — **kein React import** |
-| `src/timer/` | FSM, `useMeetingTimer` — darf React nutzen |
+| `src/timer/` | FSM, `useMeetingCalculator` — darf React nutzen |
 | `src/components/` | Präsentation, keine Geschäftslogik duplizieren |
 | `src/i18n/` | Übersetzungs-Maps + `t()` |
 | `e2e/` | Playwright-Spezifikationen |

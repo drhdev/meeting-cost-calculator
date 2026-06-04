@@ -1,25 +1,26 @@
 import { test, expect } from '@playwright/test';
+import {
+  addStandardTariffInSettings,
+  finishMeetingWithDoubleStop,
+  gotoApp,
+  startMeetingFromTimer,
+} from './helpers';
 
-test('full meeting flow shows final cost and worth-it question', async ({ page }) => {
-  await page.goto('/');
+test('full meeting flow shows final cost and reflection questions', async ({ page }) => {
+  await gotoApp(page);
 
-  await page.getByRole('button', { name: /mehr tarifmitarbeiter/i }).click();
-  await page.getByRole('button', { name: /meeting starten/i }).click();
+  await addStandardTariffInSettings(page);
+  await startMeetingFromTimer(page);
 
-  await expect(page.getByTestId('time-display')).toBeVisible();
+  await expect(page.getByTestId('focus-overlay')).toBeVisible();
+  await expect(page.getByTestId('timer-view')).toHaveAttribute('data-focus', 'true');
   await expect(page.getByTestId('cost-display')).toBeVisible();
-
   await page.waitForTimeout(2000);
 
-  const stopButton = page.getByRole('button', { name: /^stop$/i });
-  await stopButton.click();
-  await expect(page.getByText(/erneut stop zum beenden/i)).toBeVisible();
-  await stopButton.click();
+  await finishMeetingWithDoubleStop(page);
 
-  await expect(page.getByTestId('ended-worth-it')).toBeVisible();
-  await expect(page.getByText(/war es das wert/i)).toBeVisible();
-  await expect(page.getByTestId('ended-total-cost')).toBeVisible();
-
-  const costText = await page.getByTestId('ended-total-cost').textContent();
-  expect(costText).toMatch(/€/);
+  await expect(page.getByTestId('focus-overlay')).not.toBeVisible();
+  await expect(page.getByText(/ziele des meetings|meeting goals/i)).toBeVisible();
+  await expect(page.getByText(/mehrwert|value > cost/i)).toBeVisible();
+  await expect(page.getByTestId('ended-total-cost')).toHaveText(/€/);
 });

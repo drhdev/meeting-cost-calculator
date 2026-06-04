@@ -1,7 +1,7 @@
 import { GROUP_KEYS, GROUPS } from '../domain/constants';
 import { formatEuro } from '../domain/cost';
 import { moneyLocale, type MessageKey } from '../i18n';
-import { getSessionRatePerSecond } from '../timer/meetingTimer';
+import { getSessionRatePerSecond } from '../timer/meetingCalculator';
 import type { MeetingSession } from '../timer/types';
 import { useI18n } from '../hooks/useI18n';
 import { CostDisplay } from './CostDisplay';
@@ -12,22 +12,62 @@ export interface RunningViewProps {
   session: MeetingSession;
   elapsedMs: number;
   displayedCostEuro: number;
+  onStart: () => void;
   onPause: () => void;
   onResume: () => void;
   onContinue: () => void;
   onStop: () => void;
+  onOpenSettings: () => void;
+  startDisabled?: boolean;
   compact?: boolean;
+  /** Distraction-free: timer, participants, controls only */
+  focus?: boolean;
+}
+
+function ConfigureHint({
+  locale,
+  compact,
+  onOpenSettings,
+}: {
+  locale: MeetingSession['locale'];
+  compact: boolean;
+  onOpenSettings: () => void;
+}) {
+  const { t } = useI18n(locale);
+  const linkClass =
+    'font-semibold underline underline-offset-2 hover:text-amber-700 focus-visible:rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 dark:hover:text-amber-300';
+
+  return (
+    <p
+      className={
+        compact
+          ? 'text-center text-xs text-amber-600 dark:text-amber-400'
+          : 'rounded-lg bg-amber-500/10 py-2 text-center text-sm text-amber-600 dark:text-amber-400'
+      }
+      role="status"
+    >
+      {t('timer.configureHint.prefix')}
+      <button type="button" onClick={onOpenSettings} className={linkClass}>
+        {t('settings.title')}
+      </button>
+      {t('timer.configureHint.suffix')}
+    </p>
+  );
 }
 
 export function RunningView({
   session,
   elapsedMs,
   displayedCostEuro,
+  onStart,
   onPause,
   onResume,
   onContinue,
   onStop,
+  onOpenSettings,
+  startDisabled = false,
   compact = false,
+  focus = false,
 }: RunningViewProps) {
   const { t } = useI18n(session.locale);
   const ratePerSecond = getSessionRatePerSecond(session);
@@ -40,16 +80,99 @@ export function RunningView({
       : undefined;
 
   const activeGroups = GROUP_KEYS.filter((g) => session.participants[g] > 0);
+  const activeCustom = session.customPersonas.filter((p) => p.count > 0);
+  const showParticipants = activeGroups.length > 0 || activeCustom.length > 0;
 
-  if (compact) {
+  const participantsBlock = showParticipants && (
+    <div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800/60">
+      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+        {t('running.participants')}
+      </p>
+      <ul className="flex flex-wrap gap-1.5 text-xs text-slate-700 dark:text-slate-300 sm:text-sm">
+        {activeGroups.map((group) => (
+          <li
+            key={group}
+            data-testid="active-participant"
+            className="rounded-md bg-slate-200 px-2 py-1 font-mono tabular-nums dark:bg-slate-700/80"
+          >
+            {session.participants[group]}× {t(GROUPS[group].i18nKey as MessageKey)}
+          </li>
+        ))}
+        {activeCustom.map((persona) => (
+          <li
+            key={persona.id}
+            data-testid="active-participant"
+            data-participant-label={persona.label.trim()}
+            className="rounded-md bg-slate-200 px-2 py-1 font-mono tabular-nums dark:bg-slate-700/80"
+          >
+            {persona.count}× {persona.label.trim()}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  if (focus) {
     return (
-      <div className="flex min-w-0 flex-1 flex-col gap-2" data-compact="true">
+      <div
+        className="flex min-w-0 flex-col gap-3"
+        data-testid="timer-view"
+        data-focus="true"
+        data-compact={compact ? 'true' : undefined}
+      >
         {session.phase === 'paused' && (
-          <p className="text-center text-xs font-semibold text-amber-400" role="status">
+          <p
+            className="text-center text-xs font-semibold text-amber-600 dark:text-amber-400"
+            role="status"
+          >
             {t('running.paused')}
           </p>
         )}
-        <div className="flex min-w-0 items-start justify-between gap-2 rounded-lg bg-slate-900/90 px-2 py-2">
+        <div className="flex min-w-0 items-start justify-between gap-2 rounded-xl border border-slate-200 bg-white/95 px-3 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
+          <TimeDisplay label={t('running.elapsed')} elapsedMs={elapsedMs} />
+          <CostDisplay
+            locale={session.locale}
+            label={t('running.cost')}
+            displayedCostEuro={displayedCostEuro}
+            ratePerMinute={ratePerMinute}
+            rateLabel={rateLabel}
+          />
+        </div>
+        {participantsBlock}
+        <TimerControls
+          locale={session.locale}
+          phase={session.phase}
+          onStart={onStart}
+          onPause={onPause}
+          onResume={onResume}
+          onContinue={onContinue}
+          onStop={onStop}
+          startDisabled={startDisabled}
+          compact
+        />
+      </div>
+    );
+  }
+
+  if (compact) {
+    return (
+      <div
+        className="flex min-w-0 flex-1 flex-col gap-2"
+        data-testid="timer-view"
+        data-compact="true"
+      >
+        {session.phase === 'setup' && startDisabled && (
+          <ConfigureHint locale={session.locale} compact onOpenSettings={onOpenSettings} />
+        )}
+        {session.phase === 'paused' && (
+          <p
+            className="text-center text-xs font-semibold text-amber-600 dark:text-amber-400"
+            role="status"
+          >
+            {t('running.paused')}
+          </p>
+        )}
+        <div className="flex min-w-0 items-start justify-between gap-2 rounded-lg border border-slate-200 bg-white/95 px-2 py-2 shadow-sm dark:border-transparent dark:bg-slate-900/90 dark:shadow-none">
           <TimeDisplay label={t('running.elapsed')} elapsedMs={elapsedMs} />
           <CostDisplay
             locale={session.locale}
@@ -60,11 +183,12 @@ export function RunningView({
         <TimerControls
           locale={session.locale}
           phase={session.phase}
-          onStart={onResume}
+          onStart={onStart}
           onPause={onPause}
           onResume={onResume}
           onContinue={onContinue}
           onStop={onStop}
+          startDisabled={startDisabled}
           compact
         />
       </div>
@@ -72,17 +196,20 @@ export function RunningView({
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-6">
+    <div className="flex flex-1 flex-col gap-6" data-testid="timer-view">
+      {session.phase === 'setup' && startDisabled && (
+        <ConfigureHint locale={session.locale} compact={false} onOpenSettings={onOpenSettings} />
+      )}
       {session.phase === 'paused' && (
         <p
-          className="rounded-lg bg-amber-500/15 py-2 text-center text-sm font-semibold text-amber-400"
+          className="rounded-lg bg-amber-500/15 py-2 text-center text-sm font-semibold text-amber-600 dark:text-amber-400"
           role="status"
         >
           {t('running.paused')}
         </p>
       )}
 
-      <div className="flex flex-col gap-8 rounded-2xl bg-slate-900/80 px-4 py-8">
+      <div className="flex flex-col gap-8 rounded-2xl border border-slate-200 bg-white/90 px-4 py-8 shadow-sm dark:border-transparent dark:bg-slate-900/80 dark:shadow-none">
         <TimeDisplay label={t('running.elapsed')} elapsedMs={elapsedMs} large />
         <CostDisplay
           locale={session.locale}
@@ -94,32 +221,17 @@ export function RunningView({
         />
       </div>
 
-      {activeGroups.length > 0 && (
-        <div className="rounded-xl bg-slate-800/60 px-4 py-3">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-            {t('running.participants')}
-          </p>
-          <ul className="flex flex-wrap gap-2 text-sm text-slate-300">
-            {activeGroups.map((group) => (
-              <li
-                key={group}
-                className="rounded-md bg-slate-700/80 px-2 py-1 font-mono tabular-nums"
-              >
-                {session.participants[group]}× {t(GROUPS[group].i18nKey as MessageKey)}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {participantsBlock}
 
       <TimerControls
         locale={session.locale}
         phase={session.phase}
-        onStart={onResume}
+        onStart={onStart}
         onPause={onPause}
         onResume={onResume}
         onContinue={onContinue}
         onStop={onStop}
+        startDisabled={startDisabled}
       />
     </div>
   );

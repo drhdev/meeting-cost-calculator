@@ -1,11 +1,22 @@
 services:
-  mct:
+  mcc:
     build:
       context: .
       args:
-        VITE_TIPS_URL: ${VITE_TIPS_URL:-}
+        VITE_TIPS_URL: ${VITE_TIPS_URL:-https://example.com/meeting-tips}
+        VITE_DAYS_PER_YEAR: ${VITE_DAYS_PER_YEAR:-365}
+        VITE_WEEKEND_DAYS: ${VITE_WEEKEND_DAYS:-104}
+        VITE_VACATION_DAYS: ${VITE_VACATION_DAYS:-30}
+        VITE_PUBLIC_HOLIDAYS: ${VITE_PUBLIC_HOLIDAYS:-11}
+        VITE_HOURS_PER_WEEK: ${VITE_HOURS_PER_WEEK:-38}
+        VITE_WORK_DAYS_PER_WEEK: ${VITE_WORK_DAYS_PER_WEEK:-5}
+        VITE_WORK_DAYS_PER_YEAR: ${VITE_WORK_DAYS_PER_YEAR:-}
+        VITE_SALARY_TARIFF: ${VITE_SALARY_TARIFF:-90000}
+        VITE_SALARY_NON_TARIFF: ${VITE_SALARY_NON_TARIFF:-150000}
+        VITE_SALARY_EXECUTIVE: ${VITE_SALARY_EXECUTIVE:-300000}
+        VITE_SALARY_BOARD: ${VITE_SALARY_BOARD:-3000000}
     ports:
-      - '${MCT_PORT:-8080}:80'
+      - '${MCC_PORT:-8080}:80'
     restart: unless-stopped
     healthcheck:
       test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1/']

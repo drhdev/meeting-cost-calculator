@@ -35,7 +35,7 @@ export function CostDisplay({
         {formatted}
       </p>
       {ratePerMinute !== undefined && ratePerMinute > 0 && rateLabel && (
-        <span className="text-xs text-slate-500">{rateLabel}</span>
+        <span className="text-xs text-slate-600 dark:text-slate-500">{rateLabel}</span>
       )}
     </div>
   );

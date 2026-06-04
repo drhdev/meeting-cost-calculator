@@ -11,11 +11,11 @@ import {
   resume,
   start,
   stop,
-} from './meetingTimer';
+} from './meetingCalculator';
 
 const TICK_MS = 100;
 
-export function useMeetingTimer() {
+export function useMeetingCalculator() {
   const [session, setSession] = useState(createInitialSession);
   const [nowPerf, setNowPerf] = useState(0);
 

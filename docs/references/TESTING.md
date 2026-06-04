@@ -1,4 +1,4 @@
-# Testing — MCT
+# Testing — MCC
 
 Quellen: [vitest.dev](https://vitest.dev/guide/), [testing-library.com](https://testing-library.com/docs/guiding-principles), [playwright.dev](https://playwright.dev/docs/best-practices)
 
@@ -14,7 +14,7 @@ Quellen: [vitest.dev](https://vitest.dev/guide/), [testing-library.com](https://
         └─────────────┘
 ```
 
-MCT nutzt **jsdom + RTL** für Unit/Komponenten (einfach, schnell).  
+MCC nutzt **jsdom + RTL** für Unit/Komponenten (einfach, schnell).  
 Vitest Browser Mode ist optional — nicht Pflicht in v1.
 
 ## Vitest (`vitest.config.ts`)
