@@ -78,6 +78,8 @@ export function TimerControls({
   const playBtn = `${btnBase} bg-green-600 text-white hover:bg-green-500 ${disabledClass}`;
   const pauseBtn = `${btnBase} bg-yellow-400 text-slate-900 hover:bg-yellow-300 ${disabledClass}`;
   const stopBtn = `${btnBase} bg-red-600 text-white hover:bg-red-500 ${disabledClass}`;
+  /** Setup: muted like disabled play/pause so focus stays on configuring participants */
+  const stopSetupBtn = `${btnBase} bg-red-950/35 text-red-300/80 dark:bg-red-950/55 dark:text-red-400/60 ${disabledClass}`;
   const stopConfirmBtn = `${btnBase} animate-pulse bg-red-600 text-white ring-2 ring-red-400 ring-offset-2 ring-offset-slate-100 hover:bg-red-500 motion-reduce:animate-none dark:ring-offset-slate-950`;
 
   const startActive = phase === 'setup';
@@ -123,9 +125,16 @@ export function TimerControls({
         <button
           type="button"
           onClick={onStop}
+          disabled={phase === 'setup'}
           aria-label={t('controls.stop')}
           title={t('controls.stop')}
-          className={phase === 'stopped_confirm' ? stopConfirmBtn : stopBtn}
+          className={
+            phase === 'stopped_confirm'
+              ? stopConfirmBtn
+              : phase === 'setup'
+                ? stopSetupBtn
+                : stopBtn
+          }
         >
           <StopIcon className={iconClass} />
         </button>
