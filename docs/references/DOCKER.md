@@ -54,11 +54,13 @@ Coolify `docker-compose.yaml` spiegelt denselben Check.
 ## Lokaler Test
 
 ```bash
-docker compose up --build -d
-curl -f http://localhost/
-curl -f "http://localhost/?compact=1"
-docker compose down
+docker compose -f docker-compose.yaml -f docker-compose.local.yaml up --build -d
+curl -f http://localhost:8080/
+curl -f "http://localhost:8080/?compact=1"
+docker compose -f docker-compose.yaml -f docker-compose.local.yaml down
 ```
+
+**Coolify:** nur `docker-compose.yaml` — kein `ports:` auf dem Host; Proxy → Container-Port 80.
 
 ## Anti-Patterns
 

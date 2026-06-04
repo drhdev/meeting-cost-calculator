@@ -12,10 +12,10 @@ test('10 mixed participants: focus view, ticking cost, pause, end', async ({ pag
   await openSettings(page);
 
   const standard: { pattern: RegExp; count: number }[] = [
-    { pattern: /mehr tarifmitarbeiter/i, count: 3 },
-    { pattern: /mehr außertarifliche mitarbeiter/i, count: 2 },
-    { pattern: /mehr leitende angestellte/i, count: 2 },
-    { pattern: /mehr vorstände/i, count: 1 },
+    { pattern: /mehr tarifmitarbeiter|increase collective agreement staff/i, count: 3 },
+    { pattern: /mehr außertarifliche mitarbeiter|increase non-tariff staff/i, count: 2 },
+    { pattern: /mehr leitende angestellte|increase executives/i, count: 2 },
+    { pattern: /mehr vorstände|increase board members/i, count: 1 },
   ];
 
   for (const { pattern, count } of standard) {
@@ -36,20 +36,22 @@ test('10 mixed participants: focus view, ticking cost, pause, end', async ({ pag
 
   await customCards
     .nth(0)
-    .getByRole('button', { name: /mehr devops/i })
+    .getByRole('button', { name: /mehr devops|increase devops/i })
     .click();
   await customCards
     .nth(1)
     .getByRole('button', { name: /mehr product owner/i })
     .click();
 
-  await page.getByRole('button', { name: /^1\s*€$/i }).click();
+  await page.getByRole('button', { name: /^1\s*€$|^€1$/i }).click();
 
   await closeSettings(page);
 
   const chips = page.getByTestId('active-participant');
   await expect(chips).toHaveCount(6);
-  await expect(chips.filter({ hasText: /tarifmitarbeiter/i })).toHaveText(/3×/);
+  await expect(
+    chips.filter({ hasText: /tarifmitarbeiter|collective agreement staff/i }),
+  ).toHaveText(/3×/);
   await expect(chips.filter({ hasText: /devops/i })).toHaveText(/1×/);
 
   await startMeetingFromTimer(page);
@@ -61,15 +63,15 @@ test('10 mixed participants: focus view, ticking cost, pause, end', async ({ pag
   expect(timeBefore).not.toBe(timeAfter);
 
   const cost = await page.getByTestId('cost-display').textContent();
-  expect(cost).not.toMatch(/^0,00\s*€$/);
+  expect(cost).not.toMatch(/^0[,.]00\s*€$|^€0[,.]00$/i);
 
   await page.getByRole('button', { name: /^pause$/i }).click();
-  await expect(page.getByText(/pausiert/i)).toBeVisible();
-  await page.getByRole('button', { name: /fortsetzen/i }).click();
+  await expect(page.getByText(/pausiert|paused/i)).toBeVisible();
+  await page.getByRole('button', { name: /fortsetzen|resume/i }).click();
   await page.waitForTimeout(1200);
 
   await finishMeetingWithDoubleStop(page);
   const total = await page.getByTestId('ended-total-cost').textContent();
   expect(total).toMatch(/€/);
-  expect(total).not.toMatch(/^0,00\s*€$/);
+  expect(total).not.toMatch(/^0[,.]00\s*€$|^€0[,.]00$/i);
 });

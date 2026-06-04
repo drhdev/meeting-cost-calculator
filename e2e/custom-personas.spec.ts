@@ -13,9 +13,9 @@ test('custom persona only: DevOps team runs through to ended view', async ({ pag
   await openSettings(page);
   await page.getByRole('button', { name: /\+ persona/i }).click();
   await page.getByRole('textbox', { name: /bezeichnung|label/i }).fill('DevOps');
-  await page.getByRole('button', { name: /mehr devops/i }).click();
-  await page.getByRole('button', { name: /mehr devops/i }).click();
-  await page.getByRole('button', { name: /mehr devops/i }).click();
+  await page.getByRole('button', { name: /mehr devops|increase devops/i }).click();
+  await page.getByRole('button', { name: /mehr devops|increase devops/i }).click();
+  await page.getByRole('button', { name: /mehr devops|increase devops/i }).click();
   await closeSettings(page);
 
   await startMeetingFromTimer(page);

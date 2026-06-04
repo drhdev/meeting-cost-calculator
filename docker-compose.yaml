@@ -15,8 +15,8 @@ services:
         VITE_SALARY_NON_TARIFF: ${VITE_SALARY_NON_TARIFF:-150000}
         VITE_SALARY_EXECUTIVE: ${VITE_SALARY_EXECUTIVE:-300000}
         VITE_SALARY_BOARD: ${VITE_SALARY_BOARD:-3000000}
-    ports:
-      - '${MCC_PORT:-8080}:80'
+    expose:
+      - '80'
     restart: unless-stopped
     healthcheck:
       test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1/']

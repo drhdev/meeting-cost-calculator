@@ -1,0 +1,6 @@
+# Local dev only: publish container port 80 on the host.
+# Coolify / production proxy should use docker-compose.yaml without this file.
+services:
+  mcc:
+    ports:
+      - '${MCC_PORT:-8080}:80'

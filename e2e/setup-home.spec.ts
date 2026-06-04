@@ -11,14 +11,16 @@ test('settings page shows config without model salaries', async ({ page }) => {
   await gotoApp(page);
   await openSettings(page);
 
-  await expect(page.getByRole('heading', { name: 'Einstellungen' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Standard-Personas' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /^einstellungen$|^settings$/i })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: /^standard-personas$|^standard personas$/i }),
+  ).toBeVisible();
   await expect(page.getByText(/90\.000|90,000/)).not.toBeVisible();
   await expect(page.getByText(/3\.000\.000|3,000,000/)).not.toBeVisible();
 
   const footer = page.getByRole('note');
-  await expect(footer).toContainText(/arbeitstage \(\d+\)/i);
-  await expect(footer).toContainText(/keine daten gespeichert/i);
+  await expect(footer).toContainText(/arbeitstage \(\d+\)|work days \(\d+\)/i);
+  await expect(footer).toContainText(/keine daten gespeichert|no data is stored/i);
 
   await closeSettings(page);
   await expect(page.getByTestId('timer-view')).toBeVisible();
@@ -48,7 +50,7 @@ test('settings hint link opens settings from timer', async ({ page }) => {
   await gotoApp(page);
 
   await openSettingsViaHintLink(page);
-  await expect(page.getByRole('heading', { name: 'Einstellungen' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /^einstellungen$|^settings$/i })).toBeVisible();
 
   await closeSettings(page);
   await expect(page.getByTestId('timer-view')).toBeVisible();

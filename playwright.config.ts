@@ -10,6 +10,8 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:4173',
     trace: 'on-first-retry',
+    /** Match most E2E copy; theme-and-locale.spec switches to EN explicitly. */
+    locale: 'de-DE',
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {

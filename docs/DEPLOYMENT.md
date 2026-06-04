@@ -12,12 +12,16 @@
    - `VITE_WORK_DAYS_PER_YEAR` — optional direkte Override-Anzahl Arbeitstage
    - `VITE_HOURS_PER_WEEK`, `VITE_WORK_DAYS_PER_WEEK` — Stunden pro Arbeitstag (Default 7,6 h)
    - `VITE_SALARY_TARIFF`, `VITE_SALARY_NON_TARIFF`, `VITE_SALARY_EXECUTIVE`, `VITE_SALARY_BOARD` — Jahresgehälter Standard-Personas (€)
-   - `MCC_PORT` — Host-Port bei lokalem Compose (Default `8080`)
+   - `MCC_PORT` — nur mit `docker-compose.local.yaml` (Default `8080`)
 6. Nach Änderung an `VITE_*`: **Rebuild** nötig (kein Runtime-Reload)
 7. Domain zuweisen und **HTTPS** aktivieren (Coolify Proxy)
 8. Nach Deploy: `https://your-domain/` und `https://your-domain/?compact=1` testen
 
-Coolify mappt den Container-Port 80 extern; ein festes `ports:`-Mapping in Compose ist für Produktion oft nicht nötig.
+Coolify mappt den Container-Port 80 über den Proxy. **`docker-compose.yaml` bindet keinen Host-Port** (vermeidet z. B. `Bind for 0.0.0.0:8080 failed: port is already allocated`). Lokal mit Port-Mapping:
+
+```bash
+docker compose -f docker-compose.yaml -f docker-compose.local.yaml up --build -d
+```
 
 ## Docker (manuell)
 

@@ -157,14 +157,14 @@ cp .env.example .env
 ### 2. Build and run
 
 ```bash
-docker compose up --build -d
+docker compose -f docker-compose.yaml -f docker-compose.local.yaml up --build -d
 ```
 
-The app listens on **port 80 inside the container**, mapped to **`8080` on the host** by default.
+The app listens on **port 80 inside the container**. For local access, `docker-compose.local.yaml` maps **`8080` on the host** (omit that file on Coolify — the proxy reaches container port 80 directly).
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `MCC_PORT` | `8080` | Host port mapped to container port 80 |
+| `MCC_PORT` | `8080` | Host port when using `docker-compose.local.yaml` (not used on Coolify) |
 | `VITE_*` | see `.env.example` | Passed as Docker **build args** (see `docker-compose.yaml`) |
 
 ### 3. Verify
@@ -240,7 +240,9 @@ VITE_SALARY_BOARD=3000000
 VITE_HOURS_PER_WEEK=38
 ```
 
-`MCC_PORT` is mainly relevant for local Compose; Coolify maps container port **80** to your public domain automatically.
+**Coolify:** use `docker-compose.yaml` only (no host `ports:` — avoids conflicts like `8080 already allocated`). Assign domain → container port **80**.
+
+`MCC_PORT` is only for local Compose with `docker-compose.local.yaml`.
 
 ### 4. Domain & HTTPS
 
