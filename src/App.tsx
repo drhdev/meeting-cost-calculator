@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { isRtlLocale } from './i18n/localeConfig';
 import { AppToolbar } from './components/AppToolbar';
 import { DistractionFreeLayer } from './components/DistractionFreeLayer';
 import { EndedView } from './components/EndedView';
@@ -31,6 +32,11 @@ export default function App() {
 
   const distractionFree = isDistractionFreePhase(session.phase);
   const { pipWindow, pipActive } = useDocumentPiP(distractionFree, isDark);
+
+  useEffect(() => {
+    document.documentElement.lang = session.locale;
+    document.documentElement.dir = isRtlLocale(session.locale) ? 'rtl' : 'ltr';
+  }, [session.locale]);
 
   const canStart = useMemo(() => {
     const total = getTotalParticipantCount(session.participants, session.customPersonas);

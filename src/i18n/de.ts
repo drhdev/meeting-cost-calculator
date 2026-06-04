@@ -61,4 +61,4 @@ export const de = {
   'a11y.removeCustomPersona': 'Eigene Persona entfernen',
   'theme.switchToLight': 'Hellmodus aktivieren',
   'theme.switchToDark': 'Dunkelmodus aktivieren',
-} as const;
+};

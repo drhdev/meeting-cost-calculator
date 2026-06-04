@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { createEmptyParticipants } from '../domain/types';
 import { getCostPerSecondForGroup } from '../domain/cost';
 import {
@@ -21,13 +21,35 @@ function sessionWithOneTariff() {
 }
 
 describe('createInitialSession', () => {
+  const originalLanguages = navigator.languages;
+
+  afterEach(() => {
+    Object.defineProperty(navigator, 'languages', {
+      value: originalLanguages,
+      configurable: true,
+    });
+    vi.restoreAllMocks();
+  });
+
   it('starts in setup with empty segments', () => {
+    Object.defineProperty(navigator, 'languages', {
+      value: ['de-DE'],
+      configurable: true,
+    });
     const session = createInitialSession();
     expect(session.phase).toBe('setup');
     expect(session.segments).toEqual([]);
     expect(session.costStepEuro).toBe(10);
     expect(session.locale).toBe('de');
     expect(session.customPersonas).toEqual([]);
+  });
+
+  it('uses browser language when supported', () => {
+    Object.defineProperty(navigator, 'languages', {
+      value: ['fr-FR'],
+      configurable: true,
+    });
+    expect(createInitialSession().locale).toBe('fr');
   });
 });
 

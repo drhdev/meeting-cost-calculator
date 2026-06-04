@@ -1,9 +1,9 @@
 /**
- * Generates README screenshots (English UI).
+ * Generates README screenshots (English UI, dark mode).
  * Run: npm run build && npm run preview -- --port 4173 & node scripts/generate-readme-screenshots.mjs
  */
 import { chromium } from '@playwright/test';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, unlink } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -11,14 +11,25 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.join(root, '..', 'docs', 'images');
 const base = process.env.MCC_SCREENSHOT_URL ?? 'http://127.0.0.1:4173';
 
-async function setupTenParticipants(page) {
-  await page.goto(`${base}/?nopip=1`);
+const FILES = {
+  home: 'home-en.png',
+  settings: 'settings-en.png',
+  meeting: 'meeting-running-en.png',
+};
+
+async function openSettings(page) {
   await page
     .getByTestId('app-toolbar')
     .getByRole('button', { name: /einstellungen öffnen|open settings/i })
     .click();
-  await page.getByRole('button', { name: 'EN', exact: true }).click();
+}
 
+async function setEnglish(page) {
+  await openSettings(page);
+  await page.selectOption('#app-language', 'en');
+}
+
+async function addTenParticipants(page) {
   const standard = [
     [/increase collective agreement staff/i, 3],
     [/increase non-tariff staff/i, 2],
@@ -44,12 +55,34 @@ async function setupTenParticipants(page) {
 
 async function main() {
   await mkdir(outDir, { recursive: true });
-  const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: 420, height: 720 } });
 
-  await setupTenParticipants(page);
+  const legacy = path.join(outDir, 'timer-focus-32min-en.png');
+  try {
+    await unlink(legacy);
+  } catch {
+    /* already removed */
+  }
+
+  const browser = await chromium.launch();
+  const context = await browser.newContext({
+    viewport: { width: 420, height: 720 },
+    colorScheme: 'dark',
+  });
+  const page = await context.newPage();
+
+  await page.goto(`${base}/?nopip=1`);
+  await setEnglish(page);
+  await page.getByRole('button', { name: /zurück zum timer|back to timer/i }).click();
+  await page.waitForSelector('[data-testid="timer-view"]');
   await page.screenshot({
-    path: path.join(outDir, 'settings-en.png'),
+    path: path.join(outDir, FILES.home),
+    fullPage: true,
+  });
+
+  await openSettings(page);
+  await addTenParticipants(page);
+  await page.screenshot({
+    path: path.join(outDir, FILES.settings),
     fullPage: true,
   });
 
@@ -64,11 +97,14 @@ async function main() {
     if (cost) cost.textContent = '€1,290.00';
   });
 
-  const overlay = page.getByTestId('focus-overlay');
-  await overlay.screenshot({ path: path.join(outDir, 'timer-focus-32min-en.png') });
+  await page.getByTestId('focus-overlay').screenshot({
+    path: path.join(outDir, FILES.meeting),
+  });
 
   await browser.close();
-  console.log('Wrote docs/images/settings-en.png and docs/images/timer-focus-32min-en.png');
+  console.log(
+    `Wrote docs/images/${FILES.home}, ${FILES.settings}, ${FILES.meeting} (dark mode)`,
+  );
 }
 
 main().catch((err) => {

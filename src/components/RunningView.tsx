@@ -4,9 +4,54 @@ import { moneyLocale, type MessageKey } from '../i18n';
 import { getSessionRatePerSecond } from '../timer/meetingCalculator';
 import type { MeetingSession } from '../timer/types';
 import { useI18n } from '../hooks/useI18n';
+import type { AppLocale } from '../timer/types';
 import { CostDisplay } from './CostDisplay';
 import { TimeDisplay } from './TimeDisplay';
 import { TimerControls } from './TimerControls';
+
+interface TimerCostPanelProps {
+  locale: AppLocale;
+  elapsedLabel: string;
+  costLabel: string;
+  elapsedMs: number;
+  displayedCostEuro: number;
+  ratePerMinute?: number;
+  rateLabel?: string;
+  large?: boolean;
+  className?: string;
+}
+
+/** Timer above cost, centered — same layout in every view. */
+function TimerCostPanel({
+  locale,
+  elapsedLabel,
+  costLabel,
+  elapsedMs,
+  displayedCostEuro,
+  ratePerMinute,
+  rateLabel,
+  large = false,
+  className = '',
+}: TimerCostPanelProps) {
+  return (
+    <div className={className}>
+      <div
+        className={`flex w-full flex-col items-center ${large ? 'gap-8' : 'gap-4'}`}
+        data-testid="timer-cost-stack"
+      >
+        <TimeDisplay label={elapsedLabel} elapsedMs={elapsedMs} large={large} />
+        <CostDisplay
+          locale={locale}
+          label={costLabel}
+          displayedCostEuro={displayedCostEuro}
+          ratePerMinute={ratePerMinute}
+          rateLabel={rateLabel}
+          large={large}
+        />
+      </div>
+    </div>
+  );
+}
 
 export interface RunningViewProps {
   session: MeetingSession;
@@ -128,16 +173,16 @@ export function RunningView({
             {t('running.paused')}
           </p>
         )}
-        <div className="flex min-w-0 items-start justify-between gap-2 rounded-xl border border-slate-200 bg-white/95 px-3 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-900/90">
-          <TimeDisplay label={t('running.elapsed')} elapsedMs={elapsedMs} />
-          <CostDisplay
-            locale={session.locale}
-            label={t('running.cost')}
-            displayedCostEuro={displayedCostEuro}
-            ratePerMinute={ratePerMinute}
-            rateLabel={rateLabel}
-          />
-        </div>
+        <TimerCostPanel
+          locale={session.locale}
+          elapsedLabel={t('running.elapsed')}
+          costLabel={t('running.cost')}
+          elapsedMs={elapsedMs}
+          displayedCostEuro={displayedCostEuro}
+          ratePerMinute={ratePerMinute}
+          rateLabel={rateLabel}
+          className="min-w-0 rounded-xl border border-slate-200 bg-white/95 px-3 py-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/90"
+        />
         {participantsBlock}
         <TimerControls
           locale={session.locale}
@@ -172,14 +217,14 @@ export function RunningView({
             {t('running.paused')}
           </p>
         )}
-        <div className="flex min-w-0 items-start justify-between gap-2 rounded-lg border border-slate-200 bg-white/95 px-2 py-2 shadow-sm dark:border-transparent dark:bg-slate-900/90 dark:shadow-none">
-          <TimeDisplay label={t('running.elapsed')} elapsedMs={elapsedMs} />
-          <CostDisplay
-            locale={session.locale}
-            label={t('running.cost')}
-            displayedCostEuro={displayedCostEuro}
-          />
-        </div>
+        <TimerCostPanel
+          locale={session.locale}
+          elapsedLabel={t('running.elapsed')}
+          costLabel={t('running.cost')}
+          elapsedMs={elapsedMs}
+          displayedCostEuro={displayedCostEuro}
+          className="min-w-0 rounded-lg border border-slate-200 bg-white/95 px-2 py-3 shadow-sm dark:border-transparent dark:bg-slate-900/90 dark:shadow-none"
+        />
         <TimerControls
           locale={session.locale}
           phase={session.phase}
@@ -209,17 +254,17 @@ export function RunningView({
         </p>
       )}
 
-      <div className="flex flex-col gap-8 rounded-2xl border border-slate-200 bg-white/90 px-4 py-8 shadow-sm dark:border-transparent dark:bg-slate-900/80 dark:shadow-none">
-        <TimeDisplay label={t('running.elapsed')} elapsedMs={elapsedMs} large />
-        <CostDisplay
-          locale={session.locale}
-          label={t('running.cost')}
-          displayedCostEuro={displayedCostEuro}
-          ratePerMinute={ratePerMinute}
-          rateLabel={rateLabel}
-          large
-        />
-      </div>
+      <TimerCostPanel
+        locale={session.locale}
+        elapsedLabel={t('running.elapsed')}
+        costLabel={t('running.cost')}
+        elapsedMs={elapsedMs}
+        displayedCostEuro={displayedCostEuro}
+        ratePerMinute={ratePerMinute}
+        rateLabel={rateLabel}
+        large
+        className="rounded-2xl border border-slate-200 bg-white/90 px-4 py-8 shadow-sm dark:border-transparent dark:bg-slate-900/80 dark:shadow-none"
+      />
 
       {participantsBlock}
 

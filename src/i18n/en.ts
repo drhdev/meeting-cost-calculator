@@ -61,4 +61,4 @@ export const en = {
   'a11y.removeCustomPersona': 'Remove custom persona',
   'theme.switchToLight': 'Switch to light mode',
   'theme.switchToDark': 'Switch to dark mode',
-} as const;
+};

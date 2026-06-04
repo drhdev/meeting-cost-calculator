@@ -3,7 +3,9 @@ import type { CostStepEuro, Participants } from '../domain/types';
 
 export type TimerPhase = 'setup' | 'running' | 'paused' | 'stopped_confirm' | 'ended';
 
-export type AppLocale = 'de' | 'en';
+import type { AppLocale } from '../i18n/localeConfig';
+
+export type { AppLocale };
 
 export interface TimerSegment {
   startPerf: number;

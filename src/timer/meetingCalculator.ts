@@ -3,6 +3,7 @@ import {
   getTotalRatePerSecond,
   quantizeCostDisplay,
 } from '../domain/cost';
+import { detectBrowserLocale } from '../i18n/localeConfig';
 import { createEmptyParticipants } from '../domain/types';
 import type { MeetingSession, SetupPatch, TimerSegment } from './types';
 
@@ -13,7 +14,7 @@ export function createInitialSession(): MeetingSession {
     participants: createEmptyParticipants(),
     customPersonas: [],
     costStepEuro: 10,
-    locale: 'de',
+    locale: detectBrowserLocale(),
   };
 }
 

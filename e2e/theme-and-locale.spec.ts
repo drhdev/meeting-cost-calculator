@@ -25,7 +25,7 @@ test('english locale updates timer and settings labels', async ({ page }) => {
   await gotoApp(page);
 
   await openSettings(page);
-  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  await page.selectOption('#app-language', 'en');
   await expect(page.getByText('Standard personas')).toBeVisible();
 
   await page

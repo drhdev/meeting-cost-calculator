@@ -1,9 +1,9 @@
 import { APP_CONFIG, computeWorkDaysPerYear } from './env';
+import { moneyLocale } from '../i18n/localeConfig';
 import type { AppLocale } from '../timer/types';
 
 function formatConfigNumber(value: number, locale: AppLocale): string {
-  const intlLocale = locale === 'de' ? 'de-DE' : 'en-GB';
-  return new Intl.NumberFormat(intlLocale, { maximumFractionDigits: 1 }).format(value);
+  return new Intl.NumberFormat(moneyLocale(locale), { maximumFractionDigits: 1 }).format(value);
 }
 
 export function getDisclaimerParams(locale: AppLocale): Record<string, string> {

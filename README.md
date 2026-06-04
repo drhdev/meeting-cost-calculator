@@ -10,19 +10,23 @@ Designed to run **in the corner of your screen** during **in-person meetings, vi
 - **100% free and open source** — [GPL-3.0-or-later](LICENSE)
 - **No backend, no database** — nothing is stored on a server; configuration and session state stay in the browser
 - **Easy setup** — Docker or [Coolify](https://coolify.io/) in minutes; optional `.env` for salaries and work-time assumptions
-- **English & German** UI
+- **14 languages** — auto-detected from the browser (DE, EN, ES, IT, PT, FR, HI, ZH, JA, NL, PL, KO, RU, AR); manual override in Settings
 
 ---
 
-## Screenshots (English)
+## Screenshots (English, dark mode)
 
-**Focus view during a meeting** — 10 participants, 32 minutes elapsed (illustrative display):
+**Home** — timer ready to start; open Settings to add participants:
 
-![Meeting in progress — timer, participants, and controls](docs/images/timer-focus-32min-en.png)
+![Home — timer and controls before the meeting](docs/images/home-en.png)
 
-**Settings** — configured for a meeting (standard + custom personas):
+**Settings** — participants and options (standard + custom personas):
 
-![Settings — participants and options](docs/images/settings-en.png)
+![Settings — configure participants and cost display step](docs/images/settings-en.png)
+
+**Meeting in progress** — 10 participants, 32 minutes elapsed (illustrative display):
+
+![Running meeting — timer, personnel cost, participants, and controls](docs/images/meeting-running-en.png)
 
 ---
 
@@ -255,7 +259,7 @@ npm run verify:production
 | `npm run icons` | Regenerate PWA icons from `public/icons/icon-source.svg` |
 | `npm run test:coverage` | Unit tests with coverage (domain logic) |
 
-**Regenerate README screenshots** (requires preview on port 4173):
+**Regenerate README screenshots** (English, dark mode; requires preview on port 4173):
 
 ```bash
 npm run build && npm run preview -- --port 4173

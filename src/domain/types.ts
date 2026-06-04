@@ -6,7 +6,7 @@ export type Participants = Record<GroupKey, number>;
 
 export type CostStepEuro = 1 | 10 | 100 | 1000;
 
-export type MoneyLocale = 'de-DE' | 'en-GB';
+export type MoneyLocale = string;
 
 export const COST_STEP_OPTIONS: readonly CostStepEuro[] = [1, 10, 100, 1000] as const;
 

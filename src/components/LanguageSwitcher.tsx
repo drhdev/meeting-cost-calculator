@@ -1,5 +1,5 @@
+import { APP_LOCALES, LOCALE_LABELS, type AppLocale } from '../i18n/localeConfig';
 import { useI18n } from '../hooks/useI18n';
-import type { AppLocale } from '../timer/types';
 
 interface LanguageSwitcherProps {
   locale: AppLocale;
@@ -11,30 +11,24 @@ export function LanguageSwitcher({ locale, onChange }: LanguageSwitcherProps) {
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-        {t('setup.language')}
-      </span>
-      <div
-        className="inline-flex rounded-lg border border-slate-200 bg-slate-100 p-1 dark:border-transparent dark:bg-slate-800"
-        role="group"
-        aria-label={t('setup.language')}
+      <label
+        htmlFor="app-language"
+        className="text-sm font-medium text-slate-600 dark:text-slate-400"
       >
-        {(['de', 'en'] as const).map((code) => (
-          <button
-            key={code}
-            type="button"
-            aria-pressed={locale === code}
-            onClick={() => onChange(code)}
-            className={`min-h-11 min-w-14 rounded-md px-4 text-sm font-semibold transition-colors ${
-              locale === code
-                ? 'bg-slate-300 text-slate-900 dark:bg-slate-600 dark:text-white'
-                : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
-            }`}
-          >
-            {code.toUpperCase()}
-          </button>
+        {t('setup.language')}
+      </label>
+      <select
+        id="app-language"
+        value={locale}
+        onChange={(e) => onChange(e.target.value as AppLocale)}
+        className="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm font-medium text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+      >
+        {APP_LOCALES.map((code) => (
+          <option key={code} value={code}>
+            {LOCALE_LABELS[code]}
+          </option>
         ))}
-      </div>
+      </select>
     </div>
   );
 }
