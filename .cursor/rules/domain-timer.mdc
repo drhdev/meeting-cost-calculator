@@ -1,0 +1,15 @@
+---
+description: Domäne & Timer-Logik MCT
+globs: "{src/domain/**,src/timer/**}"
+alwaysApply: false
+---
+
+# Domain & Timer
+
+- Zeit: `performance.now()` + Segmente, nicht setInterval-Drift.
+- Kosten: `(elapsedMs/1000) * totalRatePerSecond`; Anzeige via `quantizeCostDisplay`.
+- Gehälter & Arbeitstage aus `constants.ts` — Spec in `IMPLEMENTATION_PLAN.md`.
+- Pause: keine elapsed-Erhöhung. Page hidden: weiterlaufen, bei visible neu berechnen.
+- 100 % unit-testbar; domain ohne React.
+
+Details: `docs/references/CODING_STANDARDS.md` §3–4

@@ -1,0 +1,11 @@
+---
+description: Umsetzungsplan-Phasen MCT
+alwaysApply: true
+---
+
+# Implementation Plan
+
+Arbeite `docs/IMPLEMENTATION_PLAN.md` **Phase für Phase** ab.
+Aktualisiere die Status-Tabelle (`pending` → `in_progress` → `done`).
+Phase erst abschließen wenn alle DoD-Checkboxen ✓ und Tests grün.
+Referenzen: `docs/references/README.md`

@@ -1,0 +1,40 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-mct-bg: #0f172a;
+  --color-mct-surface: #1e293b;
+  --color-mct-accent: #f97316;
+  --color-mct-cost: #fb923c;
+  --font-mct-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  background-color: var(--color-mct-bg);
+  color: #f1f5f9;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+}

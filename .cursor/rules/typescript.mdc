@@ -1,0 +1,15 @@
+---
+description: TypeScript-Standards MCT
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# TypeScript
+
+- `strict`, `noUncheckedIndexedAccess` — kein `any`.
+- FSM-Phasen als string-literal union (`TimerPhase`), nicht enum.
+- `src/domain/**`: kein React/DOM-Import.
+- Named exports; `as const` für Konstanten-Maps.
+- Env nur `import.meta.env.VITE_*` mit Typ in `vite-env.d.ts`.
+
+Details: `docs/references/CODING_STANDARDS.md`

@@ -1,0 +1,15 @@
+---
+description: Test-Standards MCT
+globs: "{**/*.test.{ts,tsx},e2e/**}"
+alwaysApply: false
+---
+
+# Testing
+
+- domain/timer: Vitest, fake timers für FSM.
+- components: RTL + jsdom, user-visible behavior.
+- e2e: Playwright, `getByRole`, kein `waitForTimeout`.
+- domain Coverage ≥ 95 %. Golden €/s-Werte mit `toBeCloseTo`.
+- Nicht testen: CSS-Klassen, Workbox-Internals.
+
+Details: `docs/references/TESTING.md`

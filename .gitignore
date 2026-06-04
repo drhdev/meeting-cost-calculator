@@ -1,0 +1,15 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+!.env.example
+coverage
+playwright-report
+test-results
+.DS_Store
+*.log
+.vite
+
+# PWA PNGs are committed for Docker/CI; regenerate via: npm run icons

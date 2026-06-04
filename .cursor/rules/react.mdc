@@ -1,0 +1,16 @@
+---
+description: React 19 UI-Patterns MCT
+globs: "**/*.tsx"
+alwaysApply: false
+---
+
+# React
+
+- Kein `useEffect` für abgeleiteten State — im Render berechnen.
+- `useEffect` nur: Timer-Tick, Visibility-Listener; immer cleanup.
+- Session-FSM via `useReducer` + pure functions aus `src/timer/`.
+- Komponenten präsentational halten; Logik nicht duplizieren.
+- Queries in Tests: `getByRole` / `getByLabelText`.
+- Touch ≥ 44px; Zeit/Geld: `tabular-nums`.
+
+Details: `docs/references/REACT.md`

@@ -1,0 +1,15 @@
+---
+description: MCT Kernregeln — immer lesen vor jeder Änderung
+alwaysApply: true
+---
+
+# Meeting Cost Timer — Core
+
+1. Lies `AGENTS.md` und `docs/IMPLEMENTATION_PLAN.md` (aktuelle Phase).
+2. Halte `docs/references/CODING_STANDARDS.md` ein.
+3. Stack: Vite 8 + React 19 + TS strict — siehe `docs/references/STACK.md`.
+4. Kein Backend, keine Persistenz v1, keine Features außerhalb des Plans.
+5. Nach Änderungen: `npm run lint && npm run typecheck && npm run test && npm run build`.
+6. Domänenformeln nur in `src/domain/` — nicht in Komponenten duplizieren.
+7. UI-Strings nur via i18n (`de`/`en`). Öffentliche Env: nur `VITE_*`.
+8. Doppel-Stop FSM: `stopped_confirm` → zweites Stop → `ended`.
