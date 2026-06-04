@@ -60,7 +60,6 @@ export interface RunningViewProps {
   onStart: () => void;
   onPause: () => void;
   onResume: () => void;
-  onContinue: () => void;
   onStop: () => void;
   onOpenSettings: () => void;
   startDisabled?: boolean;
@@ -107,7 +106,6 @@ export function RunningView({
   onStart,
   onPause,
   onResume,
-  onContinue,
   onStop,
   onOpenSettings,
   startDisabled = false,
@@ -165,14 +163,6 @@ export function RunningView({
         data-focus="true"
         data-compact={compact ? 'true' : undefined}
       >
-        {session.phase === 'paused' && (
-          <p
-            className="text-center text-xs font-semibold text-amber-600 dark:text-amber-400"
-            role="status"
-          >
-            {t('running.paused')}
-          </p>
-        )}
         <TimerCostPanel
           locale={session.locale}
           elapsedLabel={t('running.elapsed')}
@@ -190,7 +180,6 @@ export function RunningView({
           onStart={onStart}
           onPause={onPause}
           onResume={onResume}
-          onContinue={onContinue}
           onStop={onStop}
           startDisabled={startDisabled}
           compact
@@ -209,14 +198,6 @@ export function RunningView({
         {session.phase === 'setup' && startDisabled && (
           <ConfigureHint locale={session.locale} compact onOpenSettings={onOpenSettings} />
         )}
-        {session.phase === 'paused' && (
-          <p
-            className="text-center text-xs font-semibold text-amber-600 dark:text-amber-400"
-            role="status"
-          >
-            {t('running.paused')}
-          </p>
-        )}
         <TimerCostPanel
           locale={session.locale}
           elapsedLabel={t('running.elapsed')}
@@ -231,7 +212,6 @@ export function RunningView({
           onStart={onStart}
           onPause={onPause}
           onResume={onResume}
-          onContinue={onContinue}
           onStop={onStop}
           startDisabled={startDisabled}
           compact
@@ -245,15 +225,6 @@ export function RunningView({
       {session.phase === 'setup' && startDisabled && (
         <ConfigureHint locale={session.locale} compact={false} onOpenSettings={onOpenSettings} />
       )}
-      {session.phase === 'paused' && (
-        <p
-          className="rounded-lg bg-amber-500/15 py-2 text-center text-sm font-semibold text-amber-600 dark:text-amber-400"
-          role="status"
-        >
-          {t('running.paused')}
-        </p>
-      )}
-
       <TimerCostPanel
         locale={session.locale}
         elapsedLabel={t('running.elapsed')}
@@ -274,7 +245,6 @@ export function RunningView({
         onStart={onStart}
         onPause={onPause}
         onResume={onResume}
-        onContinue={onContinue}
         onStop={onStop}
         startDisabled={startDisabled}
       />

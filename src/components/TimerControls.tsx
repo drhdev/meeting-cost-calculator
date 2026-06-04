@@ -8,7 +8,6 @@ interface TimerControlsProps {
   onStart: () => void;
   onPause: () => void;
   onResume: () => void;
-  onContinue?: () => void;
   onStop: () => void;
   startDisabled?: boolean;
   compact?: boolean;
@@ -62,7 +61,6 @@ export function TimerControls({
   onStart,
   onPause,
   onResume,
-  onContinue,
   onStop,
   startDisabled = false,
   compact = false,
@@ -82,46 +80,37 @@ export function TimerControls({
   const stopSetupBtn = `${btnBase} bg-red-950/35 text-red-300/80 dark:bg-red-950/55 dark:text-red-400/60 ${disabledClass}`;
   const stopConfirmBtn = `${btnBase} animate-pulse bg-red-600 text-white ring-2 ring-red-400 ring-offset-2 ring-offset-slate-100 hover:bg-red-500 motion-reduce:animate-none dark:ring-offset-slate-950`;
 
-  const startActive = phase === 'setup';
-  const pauseActive = phase === 'running';
-  const resumeActive = phase === 'paused' || phase === 'stopped_confirm';
+  const isSetup = phase === 'setup';
+  const isRunning = phase === 'running';
+  const isPaused = phase === 'paused';
+  const isStoppedConfirm = phase === 'stopped_confirm';
+  const canContinue = isPaused || isStoppedConfirm;
+  const playEnabled = (isSetup && !startDisabled) || canContinue;
+  const playLabel = canContinue ? t('controls.resume') : t('controls.start');
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-2">
         <button
           type="button"
-          onClick={startActive ? onStart : undefined}
-          disabled={!startActive || startDisabled}
-          aria-label={t('controls.start')}
-          title={t('controls.start')}
+          onClick={isSetup ? onStart : canContinue ? onResume : undefined}
+          disabled={!playEnabled}
+          aria-label={playLabel}
+          title={playLabel}
           className={playBtn}
         >
           <PlayIcon className={iconClass} />
         </button>
-        {resumeActive ? (
-          <button
-            type="button"
-            onClick={phase === 'paused' ? onResume : onContinue}
-            disabled={phase === 'stopped_confirm' && !onContinue}
-            aria-label={t('controls.resume')}
-            title={t('controls.resume')}
-            className={playBtn}
-          >
-            <PlayIcon className={iconClass} />
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={pauseActive ? onPause : undefined}
-            disabled={!pauseActive}
-            aria-label={t('controls.pause')}
-            title={t('controls.pause')}
-            className={pauseBtn}
-          >
-            <PauseIcon className={iconClass} />
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={isRunning ? onPause : undefined}
+          disabled={!isRunning}
+          aria-label={t('controls.pause')}
+          title={t('controls.pause')}
+          className={pauseBtn}
+        >
+          <PauseIcon className={iconClass} />
+        </button>
         <button
           type="button"
           onClick={onStop}

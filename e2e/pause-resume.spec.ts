@@ -9,14 +9,15 @@ test('pause freezes elapsed time until resume', async ({ page }) => {
   await page.waitForTimeout(1200);
 
   await page.getByRole('button', { name: /^pause$/i }).click();
-  await expect(page.getByText(/pausiert|paused/i)).toBeVisible();
+  await expect(page.getByRole('button', { name: /^pause$/i })).toBeDisabled();
+  await expect(page.getByRole('button', { name: /fortsetzen|resume/i })).toBeEnabled();
 
   const frozen = await page.getByTestId('time-display').textContent();
   await page.waitForTimeout(800);
   await expect(page.getByTestId('time-display')).toHaveText(frozen ?? '');
 
   await page.getByRole('button', { name: /fortsetzen|resume/i }).click();
-  await expect(page.getByRole('button', { name: /^pause$/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^pause$/i })).toBeEnabled();
   await page.waitForTimeout(1500);
 
   const afterResume = await page.getByTestId('time-display').textContent();

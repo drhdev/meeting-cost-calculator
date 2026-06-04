@@ -51,7 +51,6 @@ export default function App() {
     onStart: start,
     onPause: pause,
     onResume: resume,
-    onContinue: start,
     onStop: stop,
     onOpenSettings: () => setSettingsOpen(true),
     startDisabled: !canStart,

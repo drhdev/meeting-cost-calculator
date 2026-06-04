@@ -97,7 +97,7 @@ export function pause(session: MeetingSession, nowPerf: number): MeetingSession 
 }
 
 export function resume(session: MeetingSession, nowPerf: number): MeetingSession {
-  if (session.phase !== 'paused') {
+  if (session.phase !== 'paused' && session.phase !== 'stopped_confirm') {
     return session;
   }
 
@@ -105,6 +105,8 @@ export function resume(session: MeetingSession, nowPerf: number): MeetingSession
     ...session,
     phase: 'running',
     segments: [...session.segments, { startPerf: nowPerf }],
+    finalElapsedMs: undefined,
+    finalCostEuro: undefined,
   };
 }
 

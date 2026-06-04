@@ -66,7 +66,7 @@ test('10 mixed participants: focus view, ticking cost, pause, end', async ({ pag
   expect(cost).not.toMatch(/^0[,.]00\s*€$|^€0[,.]00$/i);
 
   await page.getByRole('button', { name: /^pause$/i }).click();
-  await expect(page.getByText(/pausiert|paused/i)).toBeVisible();
+  await expect(page.getByRole('button', { name: /^pause$/i })).toBeDisabled();
   await page.getByRole('button', { name: /fortsetzen|resume/i }).click();
   await page.waitForTimeout(1200);
 

@@ -129,11 +129,12 @@ describe('stop flow', () => {
 });
 
 describe('resume from stopped_confirm', () => {
-  it('continues timing with a new segment', () => {
+  it('continues timing with a new segment via resume', () => {
     let session = sessionWithOneTariff();
     session = start(session, 0);
     session = stopOnce(session, 10_000);
-    session = start(session, 20_000);
+    expect(session.phase).toBe('stopped_confirm');
+    session = resume(session, 20_000);
     session = pause(session, 30_000);
     expect(getElapsedMs(session, 40_000)).toBe(20_000);
   });
